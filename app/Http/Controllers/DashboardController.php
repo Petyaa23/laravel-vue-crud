@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -14,9 +15,10 @@ class DashboardController extends Controller
      */
     public function index(): View|Factory|Application
     {
-        if (Auth::user()->role === 'admin'){
+        if ( Auth::user()->role != User::DEFAULT_USER){
             return view('dashboard/admin-dashboard');
         }
         return view('dashboard/user-dashboard');
     }
 }
+

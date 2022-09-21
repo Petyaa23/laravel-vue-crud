@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 200)->nullable(false);
-            $table->double('price', 4, 3)->nullable(false);
-            $table->enum('status', ['active', 'inactive'])->nullable(false);
+            $table->string('name', 200);
+            $table->double('price', 4, 3);
+            $table->enum('status', ['1', '0']);
             $table->timestamps();
         });
     }
