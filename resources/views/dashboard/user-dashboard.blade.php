@@ -1,1 +1,5 @@
-@php(dd(7777))
+@extends('layouts.app')
+
+@section('content')
+    <user-dashboard></user-dashboard>
+@endsection

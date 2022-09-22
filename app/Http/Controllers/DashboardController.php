@@ -15,10 +15,10 @@ class DashboardController extends Controller
      */
     public function index(): View|Factory|Application
     {
-        if ( Auth::user()->role != User::DEFAULT_USER){
-            return view('dashboard/admin-dashboard');
-        }
-        return view('dashboard/user-dashboard');
+//        if ( Auth::user()->role != User::DEFAULT_USER){
+//            return view('dashboard/admin-dashboard');
+//        }
+        return view('dashboard.user-dashboard');
     }
 }
 
