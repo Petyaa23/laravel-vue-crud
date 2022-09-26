@@ -15,18 +15,18 @@ class DashboardController extends Controller
         $category = Category::all();
         return view('dashboard.user-dashboard')->with(compact('products','category'));
 }
-//
-//public function store(Request $request)
-//{
-//
-//    $product = Product::create($request->all());
-//
-//    return response()->json([
-//        'status' => 'success',
-//        'product'   => $product
-//    ]);
-//}
-//
+
+public function store(Request $request)
+{
+dd($request->input());
+    $product = Product::create($request->all());
+
+    return response()->json([
+        'status' => 'success',
+        'product'   => $product
+    ]);
+}
+
 //public function show($id)
 //{
 //    $product = Product::find($id);
