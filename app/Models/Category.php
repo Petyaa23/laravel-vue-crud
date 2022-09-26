@@ -16,12 +16,13 @@ class Category extends Model
         'name',
         'description',
         'status',
+
     ];
 
     /**
      * @var string[]
      */
     protected $casts = [
-        'created_at' => 'date:Y-m-d'
+        'created_at' => 'date:d-m-Y'
     ];
 }

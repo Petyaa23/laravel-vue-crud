@@ -12,6 +12,7 @@ class Product extends Model
     /**
      * @var string[]
      */
+
     protected $fillable = [
         'name',
         'price',
@@ -22,7 +23,7 @@ class Product extends Model
      * @var string[]
      */
     protected $casts = [
-        'created_at' => 'date:Y-m-d'
+        'created_at' => 'date:d-m-Y'
     ];
 
 }
