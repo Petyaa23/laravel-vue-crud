@@ -21,9 +21,18 @@ public function store(Request $request)
     $product = Product::create($request->all());
     return response()->json([
         'status' => 'success',
-        'product'   => $product
+        'product' => $product
     ]);
 }
+
+    public function destroy($id)
+    {
+
+        $product = Product::find($id);
+        $product->delete();
+
+        return response()->json('Product successfully deleted!');
+    }
 
 //public function show($id)
 //{
@@ -43,12 +52,6 @@ public function store(Request $request)
 //    ]);
 //}
 //
-//public function destroy($id)
-//{
-//    $product = Product::find($id);
-//    $product->delete();
-//
-//    return response()->json('Product successfully deleted!');
-//}
+
 }
 

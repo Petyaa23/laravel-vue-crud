@@ -26,7 +26,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/dashboard', [App\Http\Controllers\User\DashboardController::class, 'index'])->name('dashboard');
-
 Route::post('/add-products', [App\Http\Controllers\User\DashboardController::class, 'store'])->name('product.store');
+Route::post('/delete-products{id}', [App\Http\Controllers\User\DashboardController::class, 'destroy'])->name('product.destroy');
 
 
