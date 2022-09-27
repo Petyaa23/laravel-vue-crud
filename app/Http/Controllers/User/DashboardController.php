@@ -18,9 +18,7 @@ class DashboardController extends Controller
 
 public function store(Request $request)
 {
-dd($request->input());
     $product = Product::create($request->all());
-
     return response()->json([
         'status' => 'success',
         'product'   => $product

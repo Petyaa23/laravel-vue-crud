@@ -3,7 +3,7 @@
         <h2 class="text-center">Products List</h2>
         <div class="row">
             <div class="col-md-12">
-                <button :to="{ name: 'ProductCreate' }" class="btn btn-primary btn-sm float-right mb-2 " type="button" v-on:click="toggleModal()">Add Product</button>
+                <button class="btn btn-primary btn-sm float-right mb-2 " type="button" v-on:click="toggleModal()">Add Product</button>
 
             </div>
         </div>
@@ -73,8 +73,8 @@
                         <td>{{ category.created_at }}</td>
 
                         <td>
-                            <button class="btn btn-success btn-sm" :to="{ name: 'ProductEdit', params: { category: category.id }}">Edit</button>
-                            <button class="btn btn-danger btn-sm" @click="deleteProduct(category.id)">Delete</button>
+                            <router-link class="btn btn-success btn-sm" :to="{ name: 'ProductEdit', params: { category: category.id }}">Edit</router-link>
+                            <router-link class="btn btn-danger btn-sm" @click="deleteProduct(category.id)">Delete</router-link>
                         </td>
                         <td>
                         </td>
@@ -104,8 +104,8 @@
                     <!--body-->
                     <div class="relative p-6 flex-auto">
                         <div>
-                            <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Name" required>
-                            <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mt-1" placeholder="Description" required>
+                            <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Name" v-model="product.name" required>
+                            <input type="text" id="discription" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mt-1" placeholder="Description" v-model="product.price" required>
                         </div>
                     </div>
                     <!--footer-->
@@ -140,27 +140,32 @@ export default {
     name: "UserDashboard",
     data() {
         return {
-            showModal: false
+            showModal: false,
+            product: {
+                name:'',
+                price:'',
+            }
         }
     },
     props:[
         "products",
         "category"
     ],
-    methods: {
 
+    methods: {
         toggleModal: function(){
             this.showModal = !this.showModal;
         },
-
         saveProducts: function(){
-            axios.post('/add-products', {
-                firstName: "hghhjghj",
-                lastName: "nhjkjlhkl",
+            axios.post('/add-products',this.product).then(res => {
+                this.product = res.data;
+                console.log(this.product.name)
+            }).catch(error=>{
+                console.log(error)
             })
         },
-        },
-
+        }
+        }
 
         // created() {
         //     this.getProducts();
@@ -182,7 +187,7 @@ export default {
 //                 });
 //         }
 //     }
- }
+
 </script>
 
 <style scoped>
