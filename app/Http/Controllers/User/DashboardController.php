@@ -25,14 +25,30 @@ public function store(Request $request)
     ]);
 }
 
+public function add(Request $request)
+{
+    $category = Category::create($request->all());
+    return response()->json([
+        'status' => 'success',
+        'category' => $category
+    ]);
+}
     public function destroy($id)
     {
-
         $product = Product::find($id);
         $product->delete();
-
         return response()->json('Product successfully deleted!');
     }
+
+    public function destroycategory($id)
+    {
+        $category = Category::find($id);
+        $category->delete();
+        return response()->json('Category successfully deleted!');
+    }
+
+
+
 
 //public function show($id)
 //{
