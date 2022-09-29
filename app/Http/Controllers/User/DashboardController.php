@@ -12,8 +12,8 @@ class DashboardController extends Controller
     public function index()
     {
         $products = Product::all();
-        $category = Category::all();
-        return view('dashboard.user-dashboard')->with(compact('products','category'));
+        $categories = Category::all();
+        return view('dashboard.user-dashboard')->with(compact('products','categories'));
 }
 
 public function store(Request $request)
