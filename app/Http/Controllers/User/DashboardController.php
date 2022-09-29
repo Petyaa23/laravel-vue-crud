@@ -48,8 +48,6 @@ public function add(Request $request)
     }
 
 
-
-
 //public function show($id)
 //{
 //    $product = Product::find($id);
@@ -68,6 +66,5 @@ public function add(Request $request)
 //    ]);
 //}
 //
-
 }
 

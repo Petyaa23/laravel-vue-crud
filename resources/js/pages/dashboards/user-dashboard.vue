@@ -1,6 +1,7 @@
 <template>
     <AddProducts></AddProducts>
     <div class="container">
+        <!--modal-product-open-->
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -45,9 +46,7 @@
                         </tr>
                         </tbody>
                     </table>
-                <!--modal-open-->
-                        <div
-                            class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto"
+                        <div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto"
                             id="addPrice" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog relative w-auto pointer-events-none">
                                 <div
@@ -83,7 +82,7 @@
                                                class="pt-5 text-gray-800 text-sm font-bold leading-tight tracking-normal">
                                             Price
                                         </label>
-                                        <input id="price" type="text" v-model="product.price"
+                                        <input id="price" type="number" v-model="product.price"
                                                class="mb-5 mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
                                                placeholder="Price"/>
                                     </div>
@@ -106,9 +105,8 @@
                 </div>
             </div>
         </div>
-    <!--modal-close-->
-
-    <!--modal-categoryei open-->
+        <!--modal-product-close-->
+        <!--modal-category-open-->
             <div class="py-12">
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -173,7 +171,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!--                                <div v-if="showModale" class="opacity-25 fixed inset-0 z-40 bg-black"></div>-->
                             </div>
                             <div class="col-md-12">
                                 <table class="table">
@@ -210,10 +207,7 @@
             </div>
         </div>
         <!--modal-close-->
-
 </template>
-
-
 <script>
 import products from "./AddProducts.vue";
 
@@ -224,8 +218,6 @@ export default {
     },
     data() {
         return {
-            showModal: false,
-            showModale: false,
             product: {
                 name: '',
                 price: '',
@@ -234,7 +226,6 @@ export default {
                 name: '',
                 description: ''
             }
-
         }
     },
     props: [
@@ -243,12 +234,6 @@ export default {
     ],
 
     methods: {
-        // toggleModal: function () {
-        //     this.showModal = !this.showModal;
-        // },
-        // toggleModale: function () {
-        //     this.showModale = !this.showModale;
-        // },
         saveProducts: function () {
             axios.post('/add-products', this.product).then(res => {
                 this.product = res.data;
@@ -265,7 +250,6 @@ export default {
                 console.log(error)
             })
         },
-
         deleteProduct: function (productId) {
             axios.post('/delete-products' + productId).then()
             location.reload()
@@ -275,9 +259,7 @@ export default {
             axios.post('/delete-category' + categoryId).then()
             location.reload()
         }
-
     },
-
 
     // deleteProduct(productId) {
     //     console.log(productId);
