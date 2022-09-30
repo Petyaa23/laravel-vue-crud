@@ -1,5 +1,7 @@
 <template>
     <AddProducts></AddProducts>
+    <DeleteModal></DeleteModal>
+
     <div class="container">
         <!--modal-product-open-->
         <div class="py-12">
@@ -193,7 +195,7 @@
                                             <button class="btn btn-success btn-sm"
                                                     :to="{ name: 'ProductEdit', params: { category: category.id }}">Edit
                                             </button>
-                                            <button class="btn btn-danger btn-sm" @click="deleteCategory(category.id)">
+                                            <button class="btn btn-danger btn-sm" @click="toggleModal()">
                                                 Delete
                                             </button>
                                         </td>
@@ -207,17 +209,62 @@
             </div>
         </div>
         <!--modal-close-->
+    <!--    Product Delete modal -->
+
+
+
+
+    <!--    Category Delete modal -->
+    <div>
+        <div v-if="showModal" v-for="category in categories"
+             class="w-7/12 m-auto overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex">
+            <div class="relative w-auto my-6 mx-auto max-w-6xl">
+                <!--content-->
+                <div
+                    class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                    <!--header-->
+                    <div class="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                        <h3 class="text-3xl font-semibold">
+                            Delete Category ?
+                        </h3>
+                        <button
+                            class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                            v-on:click=" toggleModal()">
+                        </button>
+                    </div>
+                    <!--footer-->
+                    <div class="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                        <button
+                            class="text-blue-500 bg-transparent border border-solid border-red-500 hover:bg-red-500  active:bg-red-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                            type="button" v-on:click="toggleModal()">
+                            Close
+                        </button>
+                        <button
+                            class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                            type="button" v-on:click="deleteCategory(category.id)">
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div v-if="showModal" class="opacity-25 fixed inset-0 z-40 bg-black"></div>
+    </div>
+
 </template>
 <script>
-import products from "./AddProducts.vue";
+// import AddProducts from "./AddProducts.vue";
+// import DeleteModal from "./DeleteModal";
 
 export default {
     name: "UserDashboard",
     components: {
-        AddProducts: products,
+        // DeleteModal,
+        // AddProducts,
     },
     data() {
         return {
+            showModal:false,
             product: {
                 name: '',
                 price: '',
@@ -232,8 +279,20 @@ export default {
         "products",
         "categories"
     ],
+    // created() {
+    //     this.axios
+    //         .get(`http://localhost:8000/api/post/edit/${this.$route.params.id}`)
+    //         .then((response) => {
+    //             this.post = response.data;
+    //             // console.log(response.data);
+    //         });
+    // },
 
     methods: {
+        toggleModal: function () {
+            this.showModal = !this.showModal;
+        },
+
         saveProducts: function () {
             axios.post('/add-products', this.product).then(res => {
                 this.product = res.data;
@@ -250,15 +309,24 @@ export default {
                 console.log(error)
             })
         },
+
         deleteProduct: function (productId) {
-            axios.post('/delete-products' + productId).then()
-            location.reload()
+            axios.post('/delete-products/' + productId).then(() => {
+                location.reload()
+            })
         },
 
         deleteCategory: function (categoryId) {
-            axios.post('/delete-category' + categoryId).then()
+            axios.post('/delete-category/' + categoryId).then()
             location.reload()
-        }
+        },
+        // updatePost() {
+        //     this.axios
+        //         .post(`/update/${this.$route.params.id}`, this.post)
+        //         .then((response) => {
+        //             this.$router.push({name: 'home'});
+        //         });
+        // }
     },
 
     // deleteProduct(productId) {

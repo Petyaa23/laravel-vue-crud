@@ -47,6 +47,20 @@ public function add(Request $request)
         return response()->json('Category successfully deleted!');
     }
 
+    public function update(Request $request, $id)
+{
+    $product = Product::find($id);
+    $product->update($request->all());
+
+    return response()->json([
+        'status' => 'success',
+        'post'   => $product
+    ]);
+}
+
+
+
+
 
 //public function show($id)
 //{
@@ -55,16 +69,7 @@ public function add(Request $request)
 //    return response()->json($product);
 //}
 //
-//public function update(Request $request, $id)
-//{
-//    $product = Product::find($id);
-//    $product->update($request->all());
-//
-//    return response()->json([
-//        'status' => 'success',
-//        'post'   => $product
-//    ]);
-//}
+
 //
 }
 

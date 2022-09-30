@@ -28,7 +28,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/dashboard', [App\Http\Controllers\User\DashboardController::class, 'index'])->name('dashboard');
 Route::post('/add-products', [App\Http\Controllers\User\DashboardController::class, 'store'])->name('product.store');
 Route::post('/add-categories', [App\Http\Controllers\User\DashboardController::class, 'add'])->name('category.show');
-Route::post('/delete-products{id}', [App\Http\Controllers\User\DashboardController::class, 'destroy'])->name('product.destroy');
-Route::post('/delete-category{id}', [App\Http\Controllers\User\DashboardController::class, 'destroycategory'])->name('destroy.category');
+Route::post('/delete-products/{id}', [App\Http\Controllers\User\DashboardController::class, 'destroy'])->name('product.destroy');
+Route::post('/delete-category/{id}', [App\Http\Controllers\User\DashboardController::class, 'destroycategory'])->name('destroy.category');
 
 
