@@ -41,7 +41,7 @@
                                 <button class="btn btn-success btn-sm"
                                         :to="{ name: 'ProductEdit', params: { productId: product.id }}">Edit
                                 </button>
-                                <button class="btn btn-danger btn-sm" @click="deleteProduct(product.id)">Delete</button>
+                                <button class="btn btn-danger btn-sm" @click=toggleModale()>Delete</button>
                             </td>
                             <td>
                             </td>
@@ -95,7 +95,7 @@
                                                 data-bs-dismiss="modal">
                                             Close
                                         </button>
-                                        <button type="button" v-on:click="saveProducts()"
+                                        <button type="button" @click="saveProducts()"
                                                 data-bs-dismiss="modal"
                                                 class="px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
                                             Save
@@ -165,7 +165,7 @@
                                                     data-bs-dismiss="modal">
                                                 Close
                                             </button>
-                                            <button type="button" v-on:click="saveCategories()"
+                                            <button type="button" @click="saveCategories()"
                                                     data-bs-dismiss="modal"
                                                     class="px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
                                                 Save
@@ -210,9 +210,41 @@
         </div>
         <!--modal-close-->
     <!--    Product Delete modal -->
-
-
-
+    <div>
+        <div v-if="showModale" v-for="product in products"
+             class="w-7/12 m-auto overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex">
+            <div class="relative w-auto my-6 mx-auto max-w-6xl">
+                <!--content-->
+                <div
+                    class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                    <!--header-->
+                    <div class="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                        <h3 class="text-3xl font-semibold">
+                            Delete Product ?
+                        </h3>
+                        <button
+                            class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                            @click=" toggleModale()">
+                        </button>
+                    </div>
+                    <!--footer-->
+                    <div class="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                        <button
+                            class="text-blue-500 bg-transparent border border-solid border-red-500 hover:bg-red-500  active:bg-red-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                            type="button" @click="toggleModale()">
+                            Close
+                        </button>
+                        <button
+                            class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                            type="button" @click="deleteProduct(product.id)">
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div v-if="showModale" class="opacity-25 fixed inset-0 z-40 bg-black"></div>
+    </div>
 
     <!--    Category Delete modal -->
     <div>
@@ -229,19 +261,19 @@
                         </h3>
                         <button
                             class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                            v-on:click=" toggleModal()">
+                            @click=" toggleModal()">
                         </button>
                     </div>
                     <!--footer-->
                     <div class="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
                         <button
                             class="text-blue-500 bg-transparent border border-solid border-red-500 hover:bg-red-500  active:bg-red-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                            type="button" v-on:click="toggleModal()">
+                            type="button" @click="toggleModal()">
                             Close
                         </button>
                         <button
                             class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                            type="button" v-on:click="deleteCategory(category.id)">
+                            type="button" @click="deleteCategory(category.id)">
                             Delete
                         </button>
                     </div>
@@ -265,6 +297,7 @@ export default {
     data() {
         return {
             showModal:false,
+            showModale:false,
             product: {
                 name: '',
                 price: '',
@@ -291,6 +324,9 @@ export default {
     methods: {
         toggleModal: function () {
             this.showModal = !this.showModal;
+        },
+        toggleModale: function () {
+            this.showModale = !this.showModale;
         },
 
         saveProducts: function () {
@@ -320,6 +356,7 @@ export default {
             axios.post('/delete-category/' + categoryId).then()
             location.reload()
         },
+
         // updatePost() {
         //     this.axios
         //         .post(`/update/${this.$route.params.id}`, this.post)
