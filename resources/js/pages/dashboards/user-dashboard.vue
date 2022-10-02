@@ -192,11 +192,14 @@
                                         <td>{{ category.status }}</td>
                                         <td>{{ category.created_at }}</td>
                                         <td>
-                                            <button class="btn btn-success btn-sm"
-                                                    :to="{ name: 'ProductEdit', params: { category: category.id }}">Edit
-                                            </button>
+<!--                                            <button class="btn btn-success btn-sm"-->
+<!--                                                    :to="{ name: 'ProductEdit', params: { category: category.id }}">Edit-->
+<!--                                            </button>-->
                                             <button class="btn btn-danger btn-sm" @click="toggleModal()">
                                                 Delete
+                                            </button>
+                                            <button class="btn btn-danger btn-sm" @click="updateCategory(category.id)">
+                                                edit
                                             </button>
                                         </td>
                                     </tr>
@@ -355,6 +358,12 @@ export default {
         deleteCategory: function (categoryId) {
             axios.post('/delete-category/' + categoryId).then()
             location.reload()
+        },
+
+        updateCategory: function (categoryId) {
+            console.log(categoryId)
+            axios.post('/update-category/' + categoryId).then()
+            // location.reload()
         },
 
         // updatePost() {

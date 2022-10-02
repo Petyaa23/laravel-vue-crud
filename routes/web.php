@@ -30,5 +30,6 @@ Route::post('/add-products', [App\Http\Controllers\User\DashboardController::cla
 Route::post('/add-categories', [App\Http\Controllers\User\DashboardController::class, 'add'])->name('category.show');
 Route::post('/delete-products/{id}', [App\Http\Controllers\User\DashboardController::class, 'destroy'])->name('product.destroy');
 Route::post('/delete-category/{id}', [App\Http\Controllers\User\DashboardController::class, 'destroycategory'])->name('destroy.category');
+Route::post('/update-category/{id}', [App\Http\Controllers\User\DashboardController::class, 'update'])->name('update.category');
 
 

@@ -6,19 +6,34 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        $products = Product::all();
-        $categories = Category::all();
+        $loggedUser = auth()->user();
+        $loggedUserId = $loggedUser->id;
+
+        $products = Product::where('user_id', $loggedUserId)->get();
+        $categories = Category::where('user_id', $loggedUserId)->get();
         return view('dashboard.user-dashboard')->with(compact('products','categories'));
 }
 
 public function store(Request $request)
 {
-    $product = Product::create($request->all());
+    $loggedUser = auth()->user();
+    $loggedUserId = $loggedUser->id;
+
+
+    $product = Product::create(
+        [
+            'name' => $request['name'],
+            'price' => $request['price'],
+            'user_id' => $loggedUserId,
+        ]
+
+    );
     return response()->json([
         'status' => 'success',
         'product' => $product
@@ -27,6 +42,8 @@ public function store(Request $request)
 
 public function add(Request $request)
 {
+
+
     $category = Category::create($request->all());
     return response()->json([
         'status' => 'success',
@@ -49,13 +66,17 @@ public function add(Request $request)
 
     public function update(Request $request, $id)
 {
-    $product = Product::find($id);
+    $product = Category::find($id);
     $product->update($request->all());
-
+//$product = Category::where('id', $id)->update($request->all());
     return response()->json([
         'status' => 'success',
         'post'   => $product
     ]);
+
+
+
+
 }
 
 
