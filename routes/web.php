@@ -18,7 +18,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
+    Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
 });
 
@@ -31,5 +31,6 @@ Route::post('/add-categories', [App\Http\Controllers\User\DashboardController::c
 Route::post('/delete-products/{id}', [App\Http\Controllers\User\DashboardController::class, 'destroyProduct'])->name('product.destroy');
 Route::post('/delete-category/{id}', [App\Http\Controllers\User\DashboardController::class, 'destroyCategory'])->name('destroy.category');
 Route::post('/update-category/{id}', [App\Http\Controllers\User\DashboardController::class, 'updateCategory'])->name('update.category');
+Route::post('/update-product', [App\Http\Controllers\User\DashboardController::class, 'updateProduct'])->name('update.product');
 
 

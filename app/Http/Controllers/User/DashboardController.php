@@ -6,14 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
     public function index()
     {
         auth()->user();
-        $products = Product::where('user_id', auth()->id())->get();
+        $products = Product::where('user_id', auth()->id())->with('category')->get();
         $categories = Category::where('user_id', auth()->id())->get();
         return view('dashboard.user-dashboard')->with(compact('products','categories'));
     }
@@ -25,6 +24,7 @@ public function addProduct(Request $request)
             'name' => $request->input('name'),
             'price' => $request['price'],
             'user_id' => auth()->id(),
+//            'category_id' => $request['category_id']
         ]
     );
     return response()->json([
@@ -77,6 +77,25 @@ public function addCategory(Request $request)
     ]);
 
 }
+
+    public function updateProduct(Request $request)
+    {
+        $id = $request->input('id');
+        $product = Product::where('id', $id)->update(
+            [
+                'name' => $request->input('name'),
+                'price' => $request['price'],
+                'user_id' => auth()->id(),
+            ]
+        );
+        return response()->json([
+            'status' => 'success',
+            'post' => $product
+        ]);
+
+
+    }
+
 
 //public function show($id)
 //{

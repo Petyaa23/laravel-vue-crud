@@ -28,10 +28,13 @@
                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
                         Category
                     </label>
-                    <select id="categories" v-model="product.category"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
+                    <select id="categories" v-model="product.category"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option v-for="category in categories " v-bind:value="category">
+                            {{ category.name }}</option>
                     </select>
+
                     <label for="price"
                            class="pt-5 text-gray-800 text-sm font-bold leading-tight tracking-normal">
                         Price
@@ -59,11 +62,23 @@
     </div>
 </template>
 <script>
+
 export default{
-  name:'AddProducts',
+  name:'add-products',
+
+    props: [
+        'categories',
+        'products'
+    ],
+
+
     data() {
+
         return {
             showModal: false,
+            onChange(e) {
+                console.log(e.target.value);
+            },
 
             product: {
                 'name': '',
@@ -81,14 +96,18 @@ export default{
         addProduct() {
             axios.post('/add-products', this.product)
                 .then(res => {
+
+
                     this.product = res.data;
-                    location.reload()
                 })
                 .catch(
                     error => {
                         console.log('error here');
                     })
-        }
+
+
+        },
+
     }
 }
 

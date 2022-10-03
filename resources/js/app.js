@@ -19,6 +19,10 @@ const app = createApp({});
 import UserDashboard from "./pages/dashboards/UserDashboard.vue";
 app.component('user-dashboard', UserDashboard);
 
+import AddProducts from "./pages/dashboards/AddProducts.vue";
+app.component('add-products', AddProducts);
+
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
