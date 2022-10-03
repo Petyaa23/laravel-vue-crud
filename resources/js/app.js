@@ -16,7 +16,7 @@ import { createApp } from 'vue';
 
 const app = createApp({});
 
-import UserDashboard from "./pages/dashboards/user-dashboard.vue";
+import UserDashboard from "./pages/dashboards/UserDashboard.vue";
 app.component('user-dashboard', UserDashboard);
 
 /**

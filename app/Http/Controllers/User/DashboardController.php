@@ -12,76 +12,71 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $loggedUser = auth()->user();
-        $loggedUserId = $loggedUser->id;
-
-        $products = Product::where('user_id', $loggedUserId)->get();
-        $categories = Category::where('user_id', $loggedUserId)->get();
+        auth()->user();
+        $products = Product::where('user_id', auth()->id())->get();
+        $categories = Category::where('user_id', auth()->id())->get();
         return view('dashboard.user-dashboard')->with(compact('products','categories'));
-}
+    }
 
-public function store(Request $request)
-{
-    $loggedUser = auth()->user();
-    $loggedUserId = $loggedUser->id;
-
-
-    $product = Product::create(
+public function addProduct(Request $request)
+    {
+        $product = Product::create(
         [
-            'name' => $request['name'],
+            'name' => $request->input('name'),
             'price' => $request['price'],
-            'user_id' => $loggedUserId,
+            'user_id' => auth()->id(),
         ]
-
     );
     return response()->json([
         'status' => 'success',
         'product' => $product
     ]);
-}
+    }
 
-public function add(Request $request)
-{
-
-
-    $category = Category::create($request->all());
+public function addCategory(Request $request)
+    {
+     $category = Category::create(
+        [
+            'name' => $request['name'],
+            'description' => $request['description'],
+            'user_id' => auth()->id(),
+        ]
+    );
     return response()->json([
         'status' => 'success',
         'category' => $category
     ]);
-}
-    public function destroy($id)
+    }
+
+    public function destroyProduct($id)
     {
         $product = Product::find($id);
         $product->delete();
         return response()->json('Product successfully deleted!');
     }
 
-    public function destroycategory($id)
+    public function destroyCategory($id)
     {
         $category = Category::find($id);
         $category->delete();
         return response()->json('Category successfully deleted!');
     }
 
-    public function update(Request $request, $id)
-{
-    $product = Category::find($id);
-    $product->update($request->all());
-//$product = Category::where('id', $id)->update($request->all());
+    public function updateCategory(Request $request, $id)
+    {
+        $category = Category::where('id', $id)->update(
+            [
+            'name' => $request['name'],
+            'description' => $request['description'],
+            'user_id' => auth()->id(),
+            ]
+    );
     return response()->json([
         'status' => 'success',
-        'post'   => $product
+        'post'   => $category
     ]);
 
-
-
-
 }
-
-
-
-
 
 //public function show($id)
 //{
