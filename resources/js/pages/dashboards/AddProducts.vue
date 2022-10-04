@@ -1,6 +1,6 @@
 <template>
     <div
-        class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto"
+        class="modal fade fixed top-0 left-0 w-full h-full outline-none overflow-x-hidden overflow-y-auto"
         id="addProduct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog relative w-auto pointer-events-none">
             <div
@@ -28,13 +28,12 @@
                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
                         Category
                     </label>
-
-                    <select id="categories" v-model="product.category"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        <option v-for="category in categories " v-bind:value="category">
-                            {{ category.name }}</option>
+                    <select id="categories" v-model="categoryId"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option  v-for="category in categories"
+                                 :value="category.id">
+                                {{ category.name }}</option>
                     </select>
-
                     <label for="price"
                            class="pt-5 text-gray-800 text-sm font-bold leading-tight tracking-normal">
                         Price
@@ -64,7 +63,7 @@
 <script>
 
 export default{
-  name:'add-products',
+  name:'AddProduct.vue',
 
     props: [
         'categories',
@@ -73,17 +72,12 @@ export default{
 
 
     data() {
-
         return {
             showModal: false,
-            onChange(e) {
-                console.log(e.target.value);
-            },
-
+            categoryId:null,
             product: {
                 'name': '',
-                'category': '',
-                'price': ''
+                'price': '',
             },
         }
     },
@@ -94,20 +88,16 @@ export default{
         },
 
         addProduct() {
+            this.product.category_id = this.categoryId;
             axios.post('/add-products', this.product)
                 .then(res => {
-
-
                     this.product = res.data;
                 })
                 .catch(
                     error => {
                         console.log('error here');
                     })
-
-
         },
-
     }
 }
 

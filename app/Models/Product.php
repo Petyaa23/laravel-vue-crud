@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
@@ -20,6 +19,7 @@ class Product extends Model
         'user_id',
         'price',
         'status',
+        'category_id'
     ];
 
     /**
@@ -29,10 +29,9 @@ class Product extends Model
         'created_at' => 'date:d-m-Y'
     ];
 
-
-
     public function category(): BelongsTo
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Category::class);
     }
+
 }

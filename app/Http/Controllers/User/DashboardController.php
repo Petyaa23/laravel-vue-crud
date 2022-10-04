@@ -24,7 +24,7 @@ public function addProduct(Request $request)
             'name' => $request->input('name'),
             'price' => $request['price'],
             'user_id' => auth()->id(),
-//            'category_id' => $request['category_id']
+            'category_id' => $request->input('category_id')
         ]
     );
     return response()->json([
@@ -68,14 +68,12 @@ public function addCategory(Request $request)
             [
             'name' => $request['name'],
             'description' => $request['description'],
-            'user_id' => auth()->id(),
             ]
-    );
+        );
     return response()->json([
         'status' => 'success',
         'post'   => $category
     ]);
-
 }
 
     public function updateProduct(Request $request)
@@ -85,26 +83,12 @@ public function addCategory(Request $request)
             [
                 'name' => $request->input('name'),
                 'price' => $request['price'],
-                'user_id' => auth()->id(),
             ]
         );
         return response()->json([
             'status' => 'success',
             'post' => $product
         ]);
-
-
     }
-
-
-//public function show($id)
-//{
-//    $product = Product::find($id);
-//
-//    return response()->json($product);
-//}
-//
-
-//
 }
 
