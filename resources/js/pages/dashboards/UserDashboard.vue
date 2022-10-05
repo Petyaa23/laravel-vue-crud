@@ -1,9 +1,6 @@
 <template>
-    <AddProducts
-        :categories="categories">
-    </AddProducts>
 
-    <div class="container">
+        <div class="container">
         <!--modal-product-open-->
         <div class="py-12">
             <div class="max-w-[85%] mx-auto sm:px-6 lg:px-8">
@@ -15,7 +12,7 @@
                             </h1>
                             <button type="button"
                                     class="px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-                                    data-bs-toggle="modal" data-bs-target="#addProduct" @click="categoryAdd">
+                                    @click="openAddProductModal = !openAddProductModal">
                                 Add Product
                             </button>
                         </div>
@@ -50,6 +47,22 @@
                             </tr>
                             </tbody>
                         </table>
+                        <AddProducts
+                            :categories="categories"
+                            v-if="openAddProductModal"
+                            @productAdd="productAdd"
+                            @close="openAddProductModal = false">
+                        </AddProducts>
+                        <EditCategory
+                        v-if="openProductEditModal"
+                        @close="openProductEditModal = false"
+                        @categoryAdd="categoryAdd"
+                        :selectedCategory="selectedCategory"
+                        :changesCategory="changesCategory"
+                        >
+                        </EditCategory>
+
+
                         <DeleteProduct
                             v-if="openDeleteProductModal"
                             :id="selectedProductId"
@@ -60,13 +73,6 @@
                 </div>
             </div>
         </div>
-
-        <AddCategory
-            v-if="openAddCategoryModal"
-            @categoryAdd="categoryAdd"
-            @close="openAddCategoryModal = false"
-        >
-        </AddCategory>
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -77,7 +83,7 @@
                             </h1>
                             <button type="button"
                                     class="px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-                                    data-bs-toggle="modal" data-bs-target="#addCategory">
+                                    @click="openAddCategoryModal = !openAddCategoryModal">
                                 Add Category
                             </button>
                         </div>
@@ -112,6 +118,13 @@
                             </tr>
                             </tbody>
                         </table>
+                        <AddCategory
+                            v-if="openAddCategoryModal"
+                            @categoryAdd="categoryAdd"
+                            @close="openAddCategoryModal = false"
+                        >
+                        </AddCategory>
+
                         <DeleteCategory
                             v-if="openDeleteCategoryModal"
                             :id="selectedCategoryId"
@@ -253,19 +266,21 @@
 </template>
 
 <script>
-import modalCategory from './AddCategory.vue';
-import modalProduct from "./AddProducts.vue";
-import modalDeleteCategory from './DeleteCategory.vue';
-import modalDeleteProduct from "./DeleteProduct.vue";
+import AddCategory from './AddCategory.vue';
+import AddProducts from "./AddProducts.vue";
+import DeleteCategory from './DeleteCategory.vue';
+import DeleteProduct from "./DeleteProduct.vue";
+import EditCategory from "./EditCategory";
 
 export default {
-    name: "user-dashboard",
+    name: "UserDashboard.vue",
 
     components: {
-        AddCategory: modalCategory,
-        AddProducts: modalProduct,
-        DeleteCategory: modalDeleteCategory,
-        DeleteProduct: modalDeleteProduct
+        EditCategory,
+        AddCategory,
+        AddProducts,
+        DeleteCategory,
+        DeleteProduct
     },
 
     props: [
@@ -284,12 +299,24 @@ export default {
             openDeleteCategoryModal: false,
             changesProduct:{},
             changesCategory:{},
+            openAddCategoryModal:false,
+            openAddProductModal:false,
         }
     },
 
     methods: {
         toggleModal: function () {
             this.showModal = !this.showModal;
+        },
+
+        categoryAdd(item) {
+            this.categories.push(item);
+            this.openAddCategoryModal = false;
+        },
+
+        productAdd(item) {
+            this.products.push(item);
+            this.openAddProductModal = false;
         },
 
         deleteCategory() {
@@ -330,16 +357,8 @@ export default {
             this.toggleModal();
         },
 
-        editCategory(category) {
-            this.selectedCategory.id = category.id;
-            this.selectedCategory.name = category.name;
-            this.selectedCategory.description = category.description;
-            this.changesCategory = category;
-            this.toggleModal();
-        },
 
-
-        changeProduct(product) {
+        changeProduct() {
             axios.post('/update-product', this.selectedProduct)
                 .then(res => {
                     if (res.data.post) {
@@ -349,19 +368,8 @@ export default {
                     this.toggleModal();
                     })
         },
-        changeCategory(category) {
-            axios.post('/update-category', this.selectedCategory)
-                .then(res => {
-                    if (res.data.post) {
-                        this.changesCategory.name = this.selectedCategory.name;
-                        this.changesCategory.id = this.selectedCategory.id;
-                        this.changesCategory.description = this.selectedCategory.description;
-                    }
-                    this.toggleModal();
-                    })
-        },
-    },
 
+    },
 }
 
 

@@ -6,7 +6,6 @@ use App\Http\Requests\AddCategoryRequest;
 use App\Http\Requests\AddProductRequest;
 use App\Models\Category;
 use App\Models\Product;
-use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
@@ -28,6 +27,7 @@ public function addProduct(AddProductRequest $request)
             'category_id' => $request->input('category_id')
         ]
     );
+    $product = Product::where('id', $product->id)->with('category')->first();
     return response()->json([
         'status' => 'success',
         'product' => $product

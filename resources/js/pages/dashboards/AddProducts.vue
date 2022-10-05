@@ -1,8 +1,8 @@
 <template>
     <div
-        class="modal fade fixed top-0 left-0 w-full h-full outline-none overflow-x-hidden overflow-y-auto"
+        class="h-full w-full animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover"
         id="addProduct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog relative w-auto pointer-events-none">
+        <div class="modal-dialog relative w-25 pointer-events-none">
             <div
                 class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
                 <div
@@ -13,7 +13,7 @@
                     </h5>
                     <button type="button"
                             class="btn-close box-content w-4 h-4 p-1 text-black border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-black hover:opacity-75 hover:no-underline"
-                            data-bs-dismiss="modal" aria-label="Close">
+                            @click="$emit('close')">
                     </button>
                 </div>
                 <div class="modal-body relative p-4">
@@ -30,9 +30,9 @@
                     </label>
                     <select id="categories" v-model="categoryId"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        <option  v-for="category in categories"
+                        <option v-for="category in categories"
                                  :value="category.id">
-                                {{ category.name }}</option>
+                            {{ category.name }}</option>
                     </select>
                     <label for="price"
                            class="pt-5 text-gray-800 text-sm font-bold leading-tight tracking-normal">
@@ -43,14 +43,13 @@
                            placeholder="Price"/>
                 </div>
                 <div
-                    class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-2 border-t border-gray-200 rounded-b-md">
+                    class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end space-x-4 p-4 border-t border-gray-200 rounded-b-md">
                     <button type="button"
                             class="px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out"
-                            data-bs-dismiss="modal">
+                            @click="$emit('close')">
                         Close
                     </button>
-                    <button type="button" @click="toggleModal(); addProduct()"
-                            data-bs-dismiss="modal"
+                    <button type="submit" @click=addProduct()
                             class="px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
                         Save
                     </button>
@@ -63,13 +62,11 @@
 <script>
 
 export default{
-  name:'AddProduct.vue',
+  name:'AddProducts.vue',
 
     props: [
         'categories',
-        'products'
     ],
-
 
     data() {
         return {
@@ -87,18 +84,19 @@ export default{
             this.showModal = !this.showModal;
         },
 
-
         addProduct() {
             this.product.category_id = this.categoryId;
             axios.post('/add-products', this.product)
                 .then(res => {
-                    this.product = res.data;
+                    this.$emit('productAdd', res.data.product);
                 })
                 .catch(
                     error => {
                         console.log('500 Internal Server Error');
                     })
         },
+
+
     }
 }
 
