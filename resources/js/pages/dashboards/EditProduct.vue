@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-gray-100 h-full w-full animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover"
+    <div class="bg-gray-100 h-full w-full animated fadeIn faster fixed left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover"
         id="addProduct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog relative w-25 pointer-events-none">
             <div
@@ -8,7 +8,7 @@
                     class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
                     <h5 class="text-xl font-medium leading-normal text-gray-800"
                         id="exampleModalLabel">
-                        Add product
+                        Edit product
                     </h5>
                     <button type="button"
                             class="btn-close box-content w-4 h-4 p-1 text-black border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-black hover:opacity-75 hover:no-underline"
@@ -20,35 +20,26 @@
                            class="text-gray-800 text-sm font-bold leading-tight tracking-normal">
                         Name
                     </label>
-                    <input id="name" type="text" v-model="product.name"
+                    <input id="name" type="text" v-model="selectedProduct.name"
                            class="mb-5 mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
                            placeholder="Name"/>
-                    <label for="categories"
-                           class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
-                        Category
-                    </label>
-                    <select id="categories" v-model="categoryId"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        <option v-for="category in categories"
-                                 :value="category.id">
-                            {{ category.name }}</option>
-                    </select>
+
                     <label for="price"
                            class="pt-5 text-gray-800 text-sm font-bold leading-tight tracking-normal">
                         Price
                     </label>
-                    <input id="price" type="number" v-model="product.price"
+                    <input id="price" type="number" v-model="selectedProduct.price"
                            class="mb-5 mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
                            placeholder="Price"/>
                 </div>
                 <div
                     class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end space-x-4 p-4 border-t border-gray-200 rounded-b-md">
                     <button type="button"
-                            class="px-6 py-2.5 bg-gray-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-black hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-700 active:shadow-lg transition duration-150 ease-in-out"
+                            class="px-6 py-2.5 bg-gray-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-700 hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-700 active:shadow-lg transition duration-150 ease-in-out"
                             @click="$emit('close')">
                         Close
                     </button>
-                    <button type="submit" @click=addProduct()
+                    <button type="submit" @click=changeProduct()
                             class="px-3 py-2.5 bg-gray-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-black hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-700 active:shadow-lg transition duration-150 ease-in-out">
                         Save
                     </button>
@@ -57,45 +48,40 @@
         </div>
     </div>
 </template>
+
 <script>
-
-export default{
-  name:'AddProducts.vue',
-
+export default {
+    name: "EditProduct",
     props: [
-        'categories',
+        'selectedProduct',
+        'changesProduct'
     ],
 
     data() {
         return {
+            openEditProductModal: false,
             showModal: false,
-            categoryId:null,
             product: {
                 'name': '',
                 'price': '',
-            },
+            }
         }
     },
-
     methods: {
-        toggleModal: function () {
-            this.showModal = !this.showModal;
-        },
-
-        addProduct() {
-            this.product.category_id = this.categoryId;
-            axios.post('/add-products', this.product)
+        changeProduct(product) {
+            axios.post('/update-product', this.selectedProduct)
                 .then(res => {
-                    this.$emit('productAdd', res.data.product);
+                    this.$emit('moveProduct', res.data.product)
+                    if (res.data.post) {
+                        this.changesProduct.name = this.selectedProduct.name;
+                        this.changesProduct.price = this.selectedProduct.price;
+                    }
                 })
-                .catch(
-                    error => {
-                        console.log('500 Internal Server Error');
-                    })
         },
-
-
     }
 }
-
 </script>
+
+<style scoped>
+
+</style>

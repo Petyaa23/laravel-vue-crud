@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Models\Product;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        dd('admin-dashboard');
-        return view('admin-dashboard');
+        auth()->user();
+        $products = Product::with('category')->get();
+        return view('dashboard.admin-dashboard')->with(compact('products'));
     }
 }
