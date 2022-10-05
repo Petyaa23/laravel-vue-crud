@@ -54,9 +54,9 @@
                             @close="openAddProductModal = false">
                         </AddProducts>
                         <EditCategory
-                        v-if="openProductEditModal"
-                        @close="openProductEditModal = false"
-                        @categoryAdd="categoryAdd"
+                        v-if="openCategoryEditModal"
+                        @close="openCategoryEditModal = false"
+                        @moveCategory="moveCategory"
                         :selectedCategory="selectedCategory"
                         :changesCategory="changesCategory"
                         >
@@ -270,7 +270,7 @@ import AddCategory from './AddCategory.vue';
 import AddProducts from "./AddProducts.vue";
 import DeleteCategory from './DeleteCategory.vue';
 import DeleteProduct from "./DeleteProduct.vue";
-import EditCategory from "./EditCategory";
+import EditCategory from "./EditCategory.vue";
 
 export default {
     name: "UserDashboard.vue",
@@ -301,6 +301,7 @@ export default {
             changesCategory:{},
             openAddCategoryModal:false,
             openAddProductModal:false,
+            openCategoryEditModal:false,
         }
     },
 
@@ -354,9 +355,21 @@ export default {
             this.selectedProduct.name = product.name;
             this.selectedProduct.price = product.price;
             this.changesProduct = product;
-            this.toggleModal();
         },
 
+        editCategory(category) {
+            this.openCategoryEditModal = !this.openCategoryEditModal;
+            this.selectedCategory.id = category.id;
+            this.selectedCategory.name = category.name;
+            this.selectedCategory.description = category.description;
+            this.changesCategory = category;
+
+        },
+
+        moveCategory(item) {
+            this.selectedCategory = item;
+            this.openCategoryEditModal = false
+        },
 
         changeProduct() {
             axios.post('/update-product', this.selectedProduct)

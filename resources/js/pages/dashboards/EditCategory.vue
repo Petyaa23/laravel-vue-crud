@@ -40,7 +40,7 @@
                     >
                         Close
                     </button>
-                    <button type="submit" @click="changeCategory(category); toggleModal()"
+                    <button type="submit" @click="changeCategory()"
                             data-bs-dismiss="modal"
                             class="px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
                         Update
@@ -57,7 +57,6 @@
 
 export default {
     name: "EditCategory",
-
         props: [
             'selectedCategory',
             'changesCategory'
@@ -77,12 +76,12 @@ export default {
         changeCategory(category) {
             axios.post('/update-category', this.selectedCategory)
                 .then(res => {
+                    this.$emit('moveCategory', res.data.category)
                     if (res.data.post) {
                         this.changesCategory.name = this.selectedCategory.name;
                         this.changesCategory.id = this.selectedCategory.id;
                         this.changesCategory.description = this.selectedCategory.description;
                     }
-                    this.toggleModal();
                 })
         },
     }
