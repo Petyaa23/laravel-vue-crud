@@ -15,7 +15,7 @@
                             </h1>
                             <button type="button"
                                     class="px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-                                    data-bs-toggle="modal" data-bs-target="#addProduct">
+                                    data-bs-toggle="modal" data-bs-target="#addProduct" @click="categoryAdd">
                                 Add Product
                             </button>
                         </div>
@@ -60,7 +60,13 @@
                 </div>
             </div>
         </div>
-        <AddCategory></AddCategory>
+
+        <AddCategory
+            v-if="openAddCategoryModal"
+            @categoryAdd="categoryAdd"
+            @close="openAddCategoryModal = false"
+        >
+        </AddCategory>
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -165,7 +171,7 @@
                 <!--footer-->
                 <div class="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
                     <button
-                        class="text-green-500 bg-transparent border border-solid border-green-500 hover:bg-green-500 hover:text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                        class="text-green-500 bg-transparent border border-solid border-green-500 hover:bg-green-500 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                         type="button" @click="changeProduct()">
                         Edit
                     </button>
@@ -222,14 +228,14 @@
                                        focus:border-blue-500 block w-full p-2.5
                                        dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
                                        dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mt-1"
-                               placeholder="Price" v-model="selectedCategory.description">
+                               placeholder="description" v-model="selectedCategory.description">
 
                     </div>
                 </div>
                 <!--footer-->
                 <div class="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
                     <button
-                        class="text-green-500 bg-transparent border border-solid border-green-500 hover:bg-green-500 hover:text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                        class="text-green-500 bg-transparent border border-solid border-green-500 hover:bg-green-500 active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                         type="button" @click="changeCategory()">
                         Edit
                     </button>
@@ -355,9 +361,7 @@ export default {
                     })
         },
     },
-    created() {
-        console.log(this.products)
-    }
+
 }
 
 

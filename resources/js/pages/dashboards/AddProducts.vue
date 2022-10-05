@@ -87,6 +87,7 @@ export default{
             this.showModal = !this.showModal;
         },
 
+
         addProduct() {
             this.product.category_id = this.categoryId;
             axios.post('/add-products', this.product)
@@ -95,7 +96,7 @@ export default{
                 })
                 .catch(
                     error => {
-                        console.log('error here');
+                        console.log('500 Internal Server Error');
                     })
         },
     }

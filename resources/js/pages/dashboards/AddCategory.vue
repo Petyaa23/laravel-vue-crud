@@ -65,16 +65,21 @@ export default {
     },
 
     methods: {
+        categoryAdd(item) {
+            this.category.push(item);
+            this.openAddCategoryModal = false;
+        },
+
         addCategory() {
             axios.post('/add-categories', this.category)
-                .then(response => (
-                    //this.category.push({name: 'name', description: 'description'})
-                    //console.log(response)
-                     location.reload()
-                ))
-                .catch(error => console.log(error))
-                .finally(() => this.loading = false)
-        }
+                .then(res => {
+                    this.$emit('addCategory', res.data.category);
+                })
+                .catch(
+                    error => {
+                        console.log('500 Internal Server Error');
+                    })
+            }
     }
 }
 </script>

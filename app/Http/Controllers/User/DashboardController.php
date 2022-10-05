@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers\User;
-
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AddCategoryRequest;
+use App\Http\Requests\AddProductRequest;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -17,12 +18,12 @@ class DashboardController extends Controller
         return view('dashboard.user-dashboard')->with(compact('products','categories'));
     }
 
-public function addProduct(Request $request)
+public function addProduct(AddProductRequest $request)
     {
         $product = Product::create(
         [
             'name' => $request->input('name'),
-            'price' => $request['price'],
+            'price' => $request->input('price'),
             'user_id' => auth()->id(),
             'category_id' => $request->input('category_id')
         ]
@@ -33,12 +34,13 @@ public function addProduct(Request $request)
     ]);
     }
 
-public function addCategory(Request $request)
+public function addCategory(AddCategoryRequest $request)
     {
+
      $category = Category::create(
         [
-            'name' => $request['name'],
-            'description' => $request['description'],
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
             'user_id' => auth()->id(),
         ]
     );
@@ -62,27 +64,28 @@ public function addCategory(Request $request)
         return response()->json('Category successfully deleted!');
     }
 
-    public function updateCategory(Request $request, $id)
+    public function updateCategory(AddCategoryRequest $request)
     {
-        $category = Category::where('id', $id)->update(
+        $id = $request->input('id');
+        $category = Category::where('id',$id)->update(
             [
-            'name' => $request['name'],
-            'description' => $request['description'],
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
             ]
         );
-    return response()->json([
-        'status' => 'success',
-        'post'   => $category
+            return response()->json([
+            'status' => 'success',
+            'post'   => $category
     ]);
 }
 
-    public function updateProduct(Request $request)
+    public function updateProduct(AddProductRequest $request)
     {
         $id = $request->input('id');
         $product = Product::where('id', $id)->update(
             [
                 'name' => $request->input('name'),
-                'price' => $request['price'],
+                'price' => $request->input('price'),
             ]
         );
         return response()->json([
