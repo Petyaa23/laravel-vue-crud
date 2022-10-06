@@ -20,9 +20,11 @@
                            class="text-gray-800 text-sm font-bold leading-tight tracking-normal">
                         Name
                     </label>
-                    <input id="name" type="text" v-model="product.name"
+
+                    <input id="name" type="text" v-model="product.name" v-bind:class="{ 'border-red-400': errors['name'] }"
                            class="mb-5 mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
                            placeholder="Name"/>
+                    <pre class="hidden">{{errors['name']}}</pre>
                     <label for="categories"
                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
                         Category
@@ -55,10 +57,21 @@
                 </div>
             </div>
         </div>
+
     </div>
 </template>
 <script>
+import * as Yup from "yup";
 
+const AddValidate = Yup.object().shape({
+    name:Yup.string()
+        .min(3, "Name should be less than 3 characters")
+        .max(100, "Name should not exceed 35 characters")
+        .required("Name is required"),
+    price: Yup.string()
+        .required("Please enter the required field")
+        .matches(/^[0-9](\.[0-9][0-9][0-9])$/,"Only alphabets are allowed for this field")
+});
 export default{
   name:'AddProducts.vue',
 
@@ -73,6 +86,10 @@ export default{
             product: {
                 'name': '',
                 'price': '',
+            },
+            errors: {
+                name: "2222222222222",
+                price: "jjjjjjjjjjjjjjjjj",
             },
         }
     },

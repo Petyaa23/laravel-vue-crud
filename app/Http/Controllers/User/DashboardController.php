@@ -90,6 +90,7 @@ class DashboardController extends Controller
                 'category_id' => $request->input('category_id')
             ]
         );
+        $product = Product::where('id', $id)->with('category')->first();
         return response()->json([
             'status' => 'success',
             'post' => $product

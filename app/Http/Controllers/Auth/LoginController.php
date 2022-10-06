@@ -42,7 +42,7 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        if (Auth::user()->role_id === 1) {
+        if (Auth::user()->role == 1) {
             return redirect(RouteServiceProvider::ADMIN);
         } else {
             return redirect(RouteServiceProvider::USER);

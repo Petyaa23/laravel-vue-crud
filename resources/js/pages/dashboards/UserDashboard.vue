@@ -261,10 +261,7 @@ export default {
             this.openCategoryEditModal = false
         }
     },
-    created() {
-        console.log(this.products)
-        console.log(this.products.category)
-    }
+
 }
 
 </script>

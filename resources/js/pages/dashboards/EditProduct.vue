@@ -81,10 +81,8 @@ export default {
             this.selectedProduct.category_id = this.categoryId
             axios.post('/update-product', this.selectedProduct)
                 .then(res => {
-                    this.$emit('moveProduct', res.data.product)
                     if (res.data.post) {
-                        this.changesProduct.name = this.selectedProduct.name;
-                        this.changesProduct.price = this.selectedProduct.price;
+                        this.$emit('moveProduct', res.data.product);
                     }
                 })
         },
