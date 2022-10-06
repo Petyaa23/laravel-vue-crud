@@ -91,10 +91,8 @@ export default{
                 .catch(
                     error => {
                         console.log('500 Internal Server Error');
-                    })
+                  })
         },
-
-
     }
 }
 

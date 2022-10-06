@@ -69,6 +69,7 @@
                             @moveProduct="moveProduct"
                             :selectedProduct="selectedProduct"
                             :changesProduct="changesProduct"
+                            :categories = "categories"
                         >
                         </EditProduct>
                         <DeleteProduct
@@ -242,7 +243,7 @@ export default {
         },
 
         moveProduct(item) {
-            this.selectedProduct = item;
+            // this.selectedProduct = item;
             this.openProductEditModal = false
         },
 
@@ -256,7 +257,7 @@ export default {
         },
 
         moveCategory(item) {
-            this.selectedCategory = item;
+            // this.selectedCategory = item;
             this.openCategoryEditModal = false
         }
     },
