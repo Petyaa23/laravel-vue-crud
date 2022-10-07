@@ -21,88 +21,71 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="product in products">
-                                <td class="border px-4 py-2">{{ product.name }}</td>
-                                <td class="border px-4 py-2">{{ product.category.name }}</td>
-                                <td class="border px-4 py-2">{{ product.price }}</td>
-                                <td class="border px-4 py-2">{{ product.status }}</td>
-                                <td class="border px-4 py-2">{{ product.created_at }}</td>
-                                <td class="d-flex pl-4 md:border md:border-grey-500 text-left block md:table-cell">
-
-                                    <button type="button" @click="changeStatus()"
-                                            data-bs-dismiss="modal"
-                                            class="px-3 py-2.5 bg-gray-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-black hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-700 active:shadow-lg transition duration-150 ease-in-out">
+                            <tr v-for="product in productsList">
+                                <td class="py-3 px-6">{{ product.category.name }}</td>
+                                <td class="py-3 px-6">{{ product.name }}</td>
+                                <td class="py-3 px-6">{{ product.price }}</td>
+                                <td class="py-3 px-6">{{ product.status }}</td>
+                                <td class="py-3 px-6">{{ product.created_at }}</td>
+                                <td>
+                                    <button
+                                        v-if="product.status === 'inactive' || product.status === 'pending'"
+                                        class="btn btn-success btn-sm"
+                                        @click="changeStatus(product, 'active')"
+                                    >
                                         Active
                                     </button>
-
-                                    <button type="button" class="mx-2 px-3 bg-gray-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-black hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-700 active:shadow-lg transition duration-150 ease-in-out"
-                                            data-bs-toggle="modalDeleteProduct" data-bs-target="#deleteProduct"
-                                            @click="">
+                                    <button
+                                        v-if="product.status === 'active' || product.status === 'pending'"
+                                        class="btn btn-danger btn-sm"
+                                        @click="changeStatus(product, 'inactive')"
+                                    >
                                         Inactive
                                     </button>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 </template>
 
 <script>
-
-
 export default {
-    name: "AdminDashboard.vue",
+    name: "AdminDashboard",
     props: [
         'products'
     ],
-
     data() {
         return {
-            product: {
-                'id': '',
-                'status': '',
-            },
-            selectedProduct:{},
-
-
+            productsList: []
         }
     },
     methods: {
-        editProduct(product) {
-            this.selectedProduct.id = product.id;
-            this.selectedProduct.name = product.name;
-            this.selectedProduct.status = product.status;
-            this.selectedProduct.price = product.price;
-        },
-
-        changeStatus() {
-            console.log()
-            axios.post('/admin/change-status', this.selectedProduct)
+        changeStatus(product, status) {
+            const data = {
+                id: product.id,
+                status: status
+            }
+            axios.post('admin/change-status', data)
                 .then(res => {
-                        if (res.data.post) {
-                            this.$emit('editProduct', res.data.selectedProduct)
-                }
+                    product.status = status;
                 })
                 .catch(
                     error => {
                         console.log('500 Internal Server Error');
                     })
-
-        },
-
+        }
     },
+    created() {
+        this.productsList = this.products
+
+    }
+
 }
-
-
-
-
-
 
 </script>
 

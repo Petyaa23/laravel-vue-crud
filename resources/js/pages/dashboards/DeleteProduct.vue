@@ -3,7 +3,6 @@
          class="min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover">
         <div class="absolute bg-black opacity-80 inset-0 z-0"></div>
         <div class="w-full  max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg  bg-white ">
-
             <div class="">
                 <div class="text-center p-5 flex-auto justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 -m-1 flex items-center text-red-500 mx-auto"
@@ -51,9 +50,10 @@ export default {
         }
     },
     methods: {
-        toggleModal: function () {
+        toggleModal () {
             this.showModal = !this.showModal;
         },
+
         deleteProduct() {
             axios.post(`delete-products/${this.id}`, this.product)
                 .then(() => {

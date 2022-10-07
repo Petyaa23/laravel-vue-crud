@@ -1,5 +1,5 @@
 <template>
-        <div class="container bg-green-100">
+    <div class="container bg-green-100">
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -110,7 +110,7 @@
                             <tr v-for="category in categories">
                                 <td class="border px-4 py-2">{{ category.name }}</td>
                                 <td class="border px-4 py-2">{{ category.description }}</td>
-                                <td class="border px-4 py-2">{{ category.status }}</td>
+                                <td class="border px-4 py-2">active</td>
                                 <td class="border px-4 py-2">{{ category.created_at }}</td>
                                 <td class="d-flex pl-8 md:border md:border-grey-500 text-left block md:table-cell">
                                     <button type="button" @click="editCategory(category)"
@@ -190,7 +190,7 @@ export default {
     },
 
     methods: {
-        toggleModal: function () {
+        toggleModal () {
             this.showModal = !this.showModal;
         },
 
@@ -210,7 +210,6 @@ export default {
                     this.categories.splice(index, 1);
                 }
             });
-
             this.openDeleteCategoryModal = false;
         },
 
@@ -225,7 +224,6 @@ export default {
                     this.products.splice(index, 1);
                 }
             });
-
             this.openDeleteProductModal = false;
         },
 
@@ -242,9 +240,11 @@ export default {
             this.changesProduct = product;
         },
 
-        moveProduct(item) {
-            // this.selectedProduct = item;
-            this.openProductEditModal = false
+        moveProduct(product) {
+            this.changesProduct.name = product.name;
+            this.changesProduct.price = product.price;
+            this.changesProduct.category = product.category;
+            this.openProductEditModal= false;
         },
 
         editCategory(category) {
@@ -253,7 +253,6 @@ export default {
             this.selectedCategory.name = category.name;
             this.selectedCategory.description = category.description;
             this.changesCategory = category;
-
         },
 
         moveCategory(item) {
@@ -261,12 +260,9 @@ export default {
             this.openCategoryEditModal = false
         }
     },
-
 }
-
 </script>
 
 <style scoped>
-
 </style>
 

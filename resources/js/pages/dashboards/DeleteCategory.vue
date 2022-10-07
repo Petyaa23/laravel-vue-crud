@@ -54,7 +54,7 @@ export default {
     },
 
     methods: {
-        toggleModal: function () {
+        toggleModal () {
             this.showModal = !this.showModal;
         },
 

@@ -2,10 +2,8 @@
     <div class="bg-gray-100 h-full w-full animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover"
         id="addProduct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog relative w-25 pointer-events-none">
-            <div
-                class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
-                <div
-                    class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
+            <div class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
+                <div class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
                     <h5 class="text-xl font-medium leading-normal text-gray-800"
                         id="exampleModalLabel">
                         Add product
@@ -20,11 +18,11 @@
                            class="text-gray-800 text-sm font-bold leading-tight tracking-normal">
                         Name
                     </label>
-
-                    <input id="name" type="text" v-model="product.name" v-bind:class="{ 'border-red-400': errors['name'] }"
+<!--                    v-bind:class="{ 'border-red-400': errors['name'] }"-->
+                    <input id="name" type="text" v-model="product.name"
                            class="mb-5 mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
                            placeholder="Name"/>
-                    <pre class="hidden">{{errors['name']}}</pre>
+<!--                    <pre class="hidden">{{errors['name']}}</pre>-->
                     <label for="categories"
                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
                         Category
@@ -43,8 +41,7 @@
                            class="mb-5 mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
                            placeholder="Price"/>
                 </div>
-                <div
-                    class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end space-x-4 p-4 border-t border-gray-200 rounded-b-md">
+                <div class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end space-x-4 p-4 border-t border-gray-200 rounded-b-md">
                     <button type="button"
                             class="px-6 py-2.5 bg-gray-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-black hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-700 active:shadow-lg transition duration-150 ease-in-out"
                             @click="$emit('close')">
@@ -57,21 +54,13 @@
                 </div>
             </div>
         </div>
-
     </div>
 </template>
-<script>
-import * as Yup from "yup";
 
-const AddValidate = Yup.object().shape({
-    name:Yup.string()
-        .min(3, "Name should be less than 3 characters")
-        .max(100, "Name should not exceed 35 characters")
-        .required("Name is required"),
-    price: Yup.string()
-        .required("Please enter the required field")
-        .matches(/^[0-9](\.[0-9][0-9][0-9])$/,"Only alphabets are allowed for this field")
-});
+<script>
+// import * as Yup from "yup";
+
+
 export default{
   name:'AddProducts.vue',
 
@@ -80,6 +69,16 @@ export default{
     ],
 
     data() {
+        //  Yup.object().shape({
+        //     name:Yup.string()
+        //         .min(3, "Name should be less than 3 characters")
+        //         .max(100, "Name should not exceed 35 characters")
+        //         .required("Name is required"),
+        //     price: Yup.string()
+        //         .required("Please enter the required field")
+        //         .matches(/^[0-9](\.[0-9][0-9][0-9])$/,"Only alphabets are allowed for this field")
+        // });
+
         return {
             showModal: false,
             categoryId:null,
@@ -87,15 +86,15 @@ export default{
                 'name': '',
                 'price': '',
             },
-            errors: {
-                name: "2222222222222",
-                price: "jjjjjjjjjjjjjjjjj",
-            },
+            // errors: {
+            //     name: "2222222222222",
+            //     price: "jjjjjjjjjjjjjjjjj",
+            // },
         }
     },
 
     methods: {
-        toggleModal: function () {
+        toggleModal () {
             this.showModal = !this.showModal;
         },
 
@@ -108,7 +107,7 @@ export default{
                 .catch(
                     error => {
                         console.log('500 Internal Server Error');
-                  })
+                 })
         },
     }
 }

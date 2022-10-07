@@ -93,7 +93,7 @@ class DashboardController extends Controller
         $product = Product::where('id', $id)->with('category')->first();
         return response()->json([
             'status' => 'success',
-            'post' => $product
+            'product' => $product
         ]);
     }
 }

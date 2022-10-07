@@ -1,15 +1,12 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
 use App\Http\Controllers\Controller;
 use App\Models\Product;
-
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
-
 
 class DashboardController extends Controller
 {
@@ -24,15 +21,12 @@ class DashboardController extends Controller
     }
 
     public function changeStatus(Request $request) {
-        dd($request->all());
+//        dd($request->all());
         $productId = $request->input('id');
         $status = $request->input('status');
         Product::where('id', $productId)->update([
             'status' => $status
         ]);
     }
-
-
-
 
 }
