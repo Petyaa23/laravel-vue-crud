@@ -1,4 +1,5 @@
 <template>
+    <Form :validation-schema="schema" v-slot="{ errors }">
     <div class="bg-gray-100 h-full w-full animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover"
         id="editCategory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog relative w-25 pointer-events-none">
@@ -20,9 +21,14 @@
                            class="text-gray-800 text-sm font-bold leading-tight tracking-normal">
                         Name
                     </label>
-                    <input id="name" type="text" v-model="selectedCategory.name"
+
+                    <Field id="name" type="text" v-model="selectedCategory.name"
                            class="mb-5 mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
-                           placeholder="Name"/>
+                           placeholder="Name"
+                           :class="{ 'is-invalid': errors}">
+                    </Field>
+                    <div class="invalid-feedback ">{{errors.name}}</div>
+                    <div class="mb-5"></div>
 
                     <p class="mb-2 font-semibold text-gray-700">
                         Description
@@ -30,7 +36,8 @@
                     <textarea type="text" id="desc" name="desc"
                               v-model="selectedCategory.description"
                               class="mb-5 mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border shadow-sm h-36"
-                              placeholder="Category Description...">
+                              placeholder="Category Description..."
+                              :class="{ 'is-invalid': errors}">
                 </textarea>
                 </div>
                 <div
@@ -50,22 +57,44 @@
         </div>
         <div v-if="showModal" class="opacity-25 fixed inset-0 z-40 bg-black"></div>
     </div>
+    </Form>
 </template>
 <script>
+import { Form, Field } from 'vee-validate';
+import * as yup from "yup";
 
 export default {
     name: "EditCategory",
+    components: {
+        Form,
+        Field,
+    },
         props: [
             'selectedCategory',
             'changesCategory'
         ],
 
         data() {
+            const schema = yup.object().shape({
+                name: yup.string()
+                    .min(3, "Name should be less than 3 characters")
+                    .max(35, "Name should not exceed 35 characters")
+                    .required("Name is required"),
+                description: yup.string()
+                    .max(1000, "Description should not exceed 35 characters")
+            });
+
             return {
+                schema,
                 openEditCategoryModal: false,
                 showModal: false,
+                category: {
+                    'name': '',
+                    'description': ''
+                }
             }
         },
+
     methods: {
         changeCategory(category) {
             axios.post('/update-category', this.selectedCategory)

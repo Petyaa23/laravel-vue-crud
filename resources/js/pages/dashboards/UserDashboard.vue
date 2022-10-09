@@ -28,7 +28,8 @@
                             <tbody>
                             <tr v-for="product in products">
                                 <td class="border px-4 py-2">{{ product.name }}</td>
-                                <td class="border px-4 py-2">{{ product.category.name }}</td>
+                                <td class="border px-4 py-2" v-if="product.category">{{ product.category.name }}</td>
+                                <td class="border px-4 py-2" v-else></td>
                                 <td class="border px-4 py-2">{{ product.price }}</td>
                                 <td class="border px-4 py-2">{{ product.status }}</td>
                                 <td class="border px-4 py-2">{{ product.created_at }}</td>

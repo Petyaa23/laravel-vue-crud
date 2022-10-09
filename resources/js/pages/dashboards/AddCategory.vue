@@ -1,4 +1,5 @@
 <template>
+    <Form :validation-schema="schema" v-slot="{ errors }">
     <div class="bg-gray-100 h-full w-full animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover"
         id="addCategory" tabindex="-1" aria-labelledby="exampleModalLabel">
         <div class="modal-dialog relative w-25 pointer-events-none">
@@ -20,9 +21,13 @@
                            class="text-gray-800 text-sm font-bold leading-tight tracking-normal">
                         Name
                     </label>
-                    <input id="name" type="text" v-model="category.name"
-                           class="mb-5 mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
-                           placeholder="Name"/>
+                    <Field placeholder="Name" id="name" type="text"
+                           v-model="category.name" name="name"
+                           class="form-control mb-2 mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
+                           :class="{ 'is-invalid': errors}">
+                    </Field>
+                    <div class="invalid-feedback ">{{errors.name}}</div>
+                    <div class="mb-5"></div>
 
                     <p class="mb-2 font-semibold text-gray-700">
                         Description
@@ -30,7 +35,8 @@
                     <textarea type="text" id="desc" name="desc"
                               v-model="category.description"
                               class="mb-5 mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border shadow-sm h-36"
-                              placeholder="Category Description...">
+                              placeholder="Category Description..."
+                              :class="{ 'is-invalid': errors}">
                      </textarea>
                 </div>
                 <div
@@ -48,13 +54,32 @@
             </div>
         </div>
     </div>
+    </Form>
 </template>
 
 <script>
+import { Form, Field } from 'vee-validate';
+import * as yup from "yup";
+
 export default {
     name: "AddCategory.vue",
+    components: {
+        Form,
+        Field,
+    },
+
     data() {
+        const schema = yup.object().shape({
+            name: yup.string()
+                .min(3, "Name should be less than 3 characters")
+                .max(35, "Name should not exceed 35 characters")
+                .required("Name is required"),
+            description: yup.string()
+                .max(1000, "Description should not exceed 35 characters")
+        });
+
         return {
+            schema,
             category: {
                 'name': '',
                 'description': ''
