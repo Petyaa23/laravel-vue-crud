@@ -26,6 +26,7 @@
                            placeholder="Name"
                            :class="{ 'is-invalid': errors}">
                     </Field>
+<!--                    </input>-->
                     <div class="invalid-feedback">{{errors.name}}</div>
                     <div class="mb-5"></div>
 

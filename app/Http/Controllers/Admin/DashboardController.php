@@ -21,7 +21,7 @@ class DashboardController extends Controller
     }
 
     public function changeStatus(Request $request) {
-//        dd($request->all());
+
         $productId = $request->input('id');
         $status = $request->input('status');
         Product::where('id', $productId)->update([
