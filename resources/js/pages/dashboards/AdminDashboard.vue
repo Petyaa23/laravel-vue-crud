@@ -22,11 +22,12 @@
                             </thead>
                             <tbody>
                             <tr v-for="product in productsList">
-                                <td class="py-3 px-6">{{ product.category.name }}</td>
-                                <td class="py-3 px-6">{{ product.name }}</td>
-                                <td class="py-3 px-6">{{ product.price }}</td>
-                                <td class="py-3 px-6">{{ product.status }}</td>
-                                <td class="py-3 px-6">{{ product.created_at }}</td>
+                                <td class="border px-4 py-2" v-if="product.category">{{product.category.name}}</td>
+                                <td class="border px-4 py-2" v-else></td>
+                                <td class="border px-4 py-2">{{ product.name }}</td>
+                                <td class="border px-4 py-2">{{ product.price }}</td>
+                                <td class="border px-4 py-2">{{ product.status }}</td>
+                                <td class="border px-4 py-2">{{ product.created_at }}</td>
                                 <td>
                                     <button
                                         class="px-3 py-2 bg-black text-white font-medium text-xs leading-tight rounded shadow-md hover:bg-gray-400 hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-black active:shadow-lg transition duration-150 ease-in-out"
