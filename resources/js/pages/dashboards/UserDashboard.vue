@@ -36,8 +36,8 @@
                                 <td class="d-flex pl-4 py-1 md:border md:border-grey-500 text-left block md:table-cell">
 
                                     <button type="button" @click="editProduct(product)"
-                                            data-bs-dismiss="modal"
-                                            class="px-3 py-2 bg-gray-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-black hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-700 active:shadow-lg transition duration-150 ease-in-out">
+                                            class="px-3 py-2 bg-gray-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-black hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-700 active:shadow-lg transition duration-150 ease-in-out"
+                                    >
                                         Edit
                                     </button>
 
@@ -115,12 +115,10 @@
                                 <td class="border px-4 py-2">{{ category.created_at }}</td>
                                 <td class="d-flex py-1 pl-8 md:border md:border-grey-500 text-left block md:table-cell">
                                     <button type="button" @click="editCategory(category)"
-                                            data-bs-dismiss="modal"
                                             class="px-3 py-2 bg-gray-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-black hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-700 active:shadow-lg transition duration-150 ease-in-out">
                                         Edit
                                     </button>
                                     <button type="button" class="mx-2 px-3 bg-gray-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-black hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-700 active:shadow-lg transition duration-150 ease-in-out"
-                                            data-bs-toggle="modalDeleteCategory" data-bs-target="#deleteCategory"
                                             @click="deleteCategoryModal(category.id)">
                                         Delete
                                     </button>

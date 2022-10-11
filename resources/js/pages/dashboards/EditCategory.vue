@@ -1,7 +1,6 @@
 <template>
-    <Form :validation-schema="schema" v-slot="{ errors }">
     <div class="bg-gray-100 h-full w-full animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover"
-        id="editCategory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        id="editCategory" tabindex="-1" aria-labelledby="exampleModalLabel">
         <div class="modal-dialog relative w-25 pointer-events-none">
             <div
                 class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
@@ -16,29 +15,34 @@
                             @click="$emit('close')">
                     </button>
                 </div>
+                <Form :validation-schema="schema" v-slot="{ errors }">
                 <div class="modal-body relative p-4">
                     <label for="name"
                            class="text-gray-800 text-sm font-bold leading-tight tracking-normal">
                         Name
                     </label>
-
-                    <Field id="name" type="text" v-model="selectedCategory.name"
-                           class="mb-5 mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
+                    <Field id="name"
+                           type="text"
+                           name="name"
+                           v-model="selectedCategory.name"
+                           class="mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
                            placeholder="Name"
-                           :class="{ 'is-invalid': errors}">
+                           :class="{ 'is-invalid': errors.name}">
                     </Field>
                     <div class="invalid-feedback ">{{errors.name}}</div>
-                    <div class="mb-5"></div>
 
                     <p class="mb-2 font-semibold text-gray-700">
                         Description
                     </p>
-                    <textarea type="text" id="desc" name="desc"
+
+                    <Field type="text"
+                           id="description_id"
+                           name="description"
                               v-model="selectedCategory.description"
-                              class="mb-5 mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border shadow-sm h-36"
+                              class="text-gray-600 focus:outline-none focus:border focus:border-indigo-700 font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border shadow-sm h-36"
                               placeholder="Category Description..."
-                              :class="{ 'is-invalid': errors}">
-                </textarea>
+                              :class="{ 'is-invalid': errors.description}">
+                </Field>
                 </div>
                 <div
                     class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end space-x-4 p-4 border-t border-gray-200 rounded-b-md">
@@ -47,17 +51,17 @@
                     >
                         Close
                     </button>
-                    <button type="submit" @click="changeCategory()"
-                            data-bs-dismiss="modal"
+                    <button type="button" @click="changeCategory()"
                             class="px-6 py-2 bg-gray-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-700 hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-800 active:shadow-lg transition duration-150 ease-in-out">
                         Update
                     </button>
                 </div>
+                </Form>
             </div>
         </div>
         <div v-if="showModal" class="opacity-25 fixed inset-0 z-40 bg-black"></div>
     </div>
-    </Form>
+
 </template>
 <script>
 import { Form, Field } from 'vee-validate';
@@ -75,7 +79,18 @@ export default {
         ],
 
         data() {
-            const schema = yup.object().shape({
+            return {
+                openEditCategoryModal: false,
+                showModal: false,
+                category: {
+                    name: '',
+                    description: ''
+                }
+            }
+        },
+    computed: {
+        schema() {
+            return yup.object().shape({
                 name: yup.string()
                     .min(3, "Name should be less than 3 characters")
                     .max(35, "Name should not exceed 35 characters")
@@ -83,18 +98,8 @@ export default {
                 description: yup.string()
                     .max(1000, "Description should not exceed 35 characters")
             });
-
-            return {
-                schema,
-                openEditCategoryModal: false,
-                showModal: false,
-                category: {
-                    'name': '',
-                    'description': ''
-                }
-            }
         },
-
+    },
     methods: {
         changeCategory(category) {
             axios.post('/update-category', this.selectedCategory)

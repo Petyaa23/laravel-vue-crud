@@ -15,13 +15,12 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        auth()->user();
         $products = Product::with('category')->get();
         return view('dashboard.admin-dashboard')->with(compact('products'));
     }
 
     public function changeStatus(Request $request) {
-//        dd($request->all());
+
         $productId = $request->input('id');
         $status = $request->input('status');
         Product::where('id', $productId)->update([

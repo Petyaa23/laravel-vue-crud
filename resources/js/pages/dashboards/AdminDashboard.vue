@@ -30,14 +30,13 @@
                                 <td class="border px-4 py-2">{{ product.created_at }}</td>
                                 <td>
                                     <button
+                                        v-if="product.status === 'inactive' || product.status === 'pending'"
                                         class="px-3 py-2 bg-black text-white font-medium text-xs leading-tight rounded shadow-md hover:bg-gray-400 hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-black active:shadow-lg transition duration-150 ease-in-out"
-                                        @click="toggleModal(this.showModal)"
-                                    >
-<!--                                        changeStatus(product, 'active')-->
-<!--                                        v-if="product.status === 'inactive' || product.status === 'pending'"-->
-<!--                                    >-->
+                                        @click="changeStatus(product, 'active')"
+                                        >
                                         Active
                                     </button>
+
                                     <button
                                         v-if="product.status === 'active' || product.status === 'pending'"
                                         class="px-3 py-2 bg-gray-400 text-white font-medium text-xs leading-tight rounded shadow-md hover:bg-black hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-700 active:shadow-lg transition duration-150 ease-in-out"
