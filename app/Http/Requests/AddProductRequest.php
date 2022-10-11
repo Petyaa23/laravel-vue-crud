@@ -26,7 +26,7 @@ class AddProductRequest extends FormRequest
         return [
             "name" => 'required|string|min:3|max:35',
             "price" => 'required|regex:/^[0-9](\.[0-9][0-9][0-9])$/',
-           "category_id" =>'required|integer',
+            "category_id" =>'required|integer',
         ];
     }
 

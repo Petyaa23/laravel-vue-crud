@@ -15,7 +15,6 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        auth()->user();
         $products = Product::with('category')->get();
         return view('dashboard.admin-dashboard')->with(compact('products'));
     }
