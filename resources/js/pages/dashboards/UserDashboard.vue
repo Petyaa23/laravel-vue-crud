@@ -236,6 +236,7 @@ export default {
             this.selectedProduct.id = product.id;
             this.selectedProduct.name = product.name;
             this.selectedProduct.price = product.price;
+            this.selectedProduct.category = product.category;
             this.changesProduct = product;
         },
 

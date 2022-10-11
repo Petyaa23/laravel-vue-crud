@@ -82,6 +82,7 @@ class DashboardController extends Controller
 
     public function updateProduct(AddProductRequest $request)
     {
+        dd($request->all());
         $id = $request->input('id');
         $product = Product::where('id', $id)->update(
             [

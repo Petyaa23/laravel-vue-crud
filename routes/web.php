@@ -24,14 +24,14 @@ Route::get('/', function () {
     });
 
 
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/dashboard', [App\Http\Controllers\User\DashboardController::class, 'index'])->name('dashboard');
-Route::post('/add-products', [App\Http\Controllers\User\DashboardController::class, 'addProduct'])->name('add.product');
-Route::post('/add-categories', [App\Http\Controllers\User\DashboardController::class, 'addCategory'])->name('add.category');
-Route::post('/delete-products/{id}', [App\Http\Controllers\User\DashboardController::class, 'destroyProduct'])->name('product.destroy');
-Route::post('/delete-category/{id}', [App\Http\Controllers\User\DashboardController::class, 'destroyCategory'])->name('destroy.category');
-Route::post('/update-product', [App\Http\Controllers\User\DashboardController::class, 'updateProduct'])->name('update.product');
-Route::post('/update-category', [App\Http\Controllers\User\DashboardController::class, 'updateCategory'])->name('update.category');
-
+Route::middleware(['auth'])->group(function () {
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/dashboard', [App\Http\Controllers\User\DashboardController::class, 'index'])->name('dashboard');
+    Route::post('/add-products', [App\Http\Controllers\User\DashboardController::class, 'addProduct'])->name('add.product');
+    Route::post('/add-categories', [App\Http\Controllers\User\DashboardController::class, 'addCategory'])->name('add.category');
+    Route::post('/delete-products/{id}', [App\Http\Controllers\User\DashboardController::class, 'destroyProduct'])->name('product.destroy');
+    Route::post('/delete-category/{id}', [App\Http\Controllers\User\DashboardController::class, 'destroyCategory'])->name('destroy.category');
+    Route::post('/update-product', [App\Http\Controllers\User\DashboardController::class, 'updateProduct'])->name('update.product');
+    Route::post('/update-category', [App\Http\Controllers\User\DashboardController::class, 'updateCategory'])->name('update.category');
+});
 

@@ -30,7 +30,7 @@
                                :class="{ 'is-invalid': errors.name}">
                         </Field>
                         <div class="invalid-feedback">{{errors.name}}</div>
-                        <label for="categories"
+                        <label for="category"
                                class="block mt-2 text-sm font-medium text-gray-900 dark:text-gray-400">
                             Category
                         </label>
@@ -41,6 +41,7 @@
                                :class="{ 'is-invalid': errors.category}"
                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option v-for="category in categories"
+
                                     :value="category.id"
                             >
                                 {{ category.name }}
@@ -136,7 +137,11 @@ export default {
                 });
         },
     },
+created() {
+    console.log(this.selectedProduct)
 }
+}
+
 </script>
 
 <style scoped>

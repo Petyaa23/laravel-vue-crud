@@ -23,6 +23,7 @@ class AddProductRequest extends FormRequest
      */
     public function rules()
     {
+        dd($this->all());
         return [
             "name" => 'required|string|min:3|max:35',
             "price" => 'required|regex:/^[0-9](\.[0-9][0-9][0-9])$/',
