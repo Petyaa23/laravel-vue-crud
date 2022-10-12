@@ -101,6 +101,7 @@ export default {
 
     created() {
         this.productsList = this.products
+        console.log(this.products)
 
     }
 

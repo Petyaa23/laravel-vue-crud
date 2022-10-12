@@ -11,12 +11,16 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
+
     /**
-     * @return Application|Factory|View+
+     * @return Application|Factory|View
      */
     public function index()
     {
+        $pages = 5;
+        $products = Product::with('category')->paginate($pages)->items();
         $products = Product::with('category')->get();
+//        $products = $products->paginate(2);
         return view('dashboard.admin-dashboard')->with(compact('products'));
     }
 
