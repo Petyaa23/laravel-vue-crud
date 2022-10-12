@@ -16,10 +16,10 @@ import { createApp } from 'vue';
 
 const app = createApp({});
 
-import UserDashboard from "./pages/dashboards/UserDashboard.vue";
+import UserDashboard from "./pages/User/UserDashboard.vue";
 app.component('user-dashboard', UserDashboard);
 
-import AdminDashboard from "./pages/dashboards/AdminDashboard.vue";
+import AdminDashboard from "./pages/Admin/AdminDashboard.vue";
 app.component('admin-dashboard', AdminDashboard);
 /**
  * The following block of code may be used to automatically register your

@@ -32,7 +32,7 @@
                                     <button
                                         v-if="product.status === 'inactive' || product.status === 'pending'"
                                         class="px-3 py-2 bg-black text-white font-medium text-xs leading-tight rounded shadow-md hover:bg-gray-400 hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-black active:shadow-lg transition duration-150 ease-in-out"
-                                        @click="changeStatus(product, 'active')"
+                                        @click="changeStatusModal(product, 'active')"
                                         >
                                         Active
                                     </button>
@@ -40,7 +40,7 @@
                                     <button
                                         v-if="product.status === 'active' || product.status === 'pending'"
                                         class="px-3 py-2 bg-gray-400 text-white font-medium text-xs leading-tight rounded shadow-md hover:bg-black hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-700 active:shadow-lg transition duration-150 ease-in-out"
-                                        @click="changeStatus(product, 'inactive')"
+                                        @click="changeStatusModal(product, 'inactive')"
                                     >
                                         Inactive
                                     </button>
@@ -48,73 +48,57 @@
                             </tr>
                             </tbody>
                         </table>
+                        <ChangeStatus
+                            v-if="openChangeStatusModal"
+                            @changeProductStatus="changeProductStatus"
+                            :status = 'changeStatus'
+                            :changeProductId = 'changeProduct.id'
+                            @close="openChangeStatusModal = false">
+                        </ChangeStatus>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-<!--    open-modal-Active-->
-<!--    <div id="activeAndInactive" v-if="showModal"-->
-<!--         class="min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover">-->
-<!--        <div class="absolute bg-black opacity-80 inset-0 z-0"></div>-->
-<!--        <div class="w-full  max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg  bg-white ">-->
-<!--            <div class="">-->
-<!--                <div class="text-center p-5 flex-auto justify-center">-->
-<!--                    <h3 class="text-xl font-bold py-4 ">Are you sure to active this Product?</h3>-->
-<!--                </div>-->
-<!--                &lt;!&ndash;footer&ndash;&gt;-->
-<!--                <div class="p-3  mt-2 text-center space-x-4 md:block">-->
-<!--                    <button-->
-<!--                        class="mb-2 md:mb-0 bg-gray-100 border border-red-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-gray rounded-full hover:shadow-lg hover:bg-gray-600"-->
-<!--                        type="button" @click="$emit('close')">-->
-<!--                        Cancel-->
-<!--                    </button>-->
-<!--                    <button-->
-<!--                        class="mb-2 md:mb-0 bg-gray-100 border border-red-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-gray rounded-full hover:shadow-lg hover:bg-gray-600"-->
-<!--                        type="button" @click="changeStatus()">-->
-<!--                        Active-->
-<!--                    </button>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <div v-if="showModal" class="opacity-25 fixed inset-0 z-40 bg-black"></div>-->
-
 
 
 </template>
 
 <script>
+import ChangeStatus from "./ChangeStatus.vue";
+
 export default {
-    name: "AdminDashboard",
+    name: "AdminDashboard.vue",
     props: [
         'products'
     ],
+    components: {
+        ChangeStatus
+    },
+
     data() {
         return {
+            openChangeStatusModal:false,
             productsList: [],
             showModal: false,
+            changeProduct: {},
+            changeStatus: '',
+
+
         }
     },
     methods: {
-        toggleModal () {
-            this.showModal = !this.showModal;
+        changeStatusModal(product,status) {
+            this.changeProduct = product;
+            this.changeStatus = status;
+            this.openChangeStatusModal = !this.openChangeStatusModal
         },
-        changeStatus(product, status) {
-            const data = {
-                id: product.id,
-                status: status
-            }
-            axios.post('admin/change-status', data)
-                .then(res => {
-                    product.status = status;
-                })
-                .catch(
-                    error => {
-                        console.log('500 Internal Server Error');
-                    })
+        changeProductStatus () {
+            this.changeProduct.status = this.changeStatus
+            this.openChangeStatusModal = false
         }
     },
+
     created() {
         this.productsList = this.products
 

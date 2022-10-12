@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Contracts\Foundation\Application;
@@ -19,8 +20,8 @@ class DashboardController extends Controller
         return view('dashboard.admin-dashboard')->with(compact('products'));
     }
 
-    public function changeStatus(Request $request) {
-
+    public function changeStatus(Request $request)
+    {
         $productId = $request->input('id');
         $status = $request->input('status');
         Product::where('id', $productId)->update([

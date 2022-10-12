@@ -12,7 +12,6 @@ class DashboardController extends Controller
 {
     public function index()
     {
-
         $products = Product::where('user_id', auth()->id())->with('category')->get();
         $categories = Category::where('user_id', auth()->id())->get();
         return view('dashboard.user-dashboard')->with(compact('products', 'categories'));
@@ -37,7 +36,6 @@ class DashboardController extends Controller
 
     public function addCategory(AddCategoryRequest $request)
     {
-
         $category = Category::create(
             [
                 'name' => $request->input('name'),
@@ -82,7 +80,6 @@ class DashboardController extends Controller
 
     public function updateProduct(AddProductRequest $request)
     {
-        dd($request->all());
         $id = $request->input('id');
         $product = Product::where('id', $id)->update(
             [

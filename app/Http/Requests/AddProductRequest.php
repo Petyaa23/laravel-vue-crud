@@ -23,16 +23,18 @@ class AddProductRequest extends FormRequest
      */
     public function rules()
     {
-        dd($this->all());
         return [
             "name" => 'required|string|min:3|max:35',
             "price" => 'required|regex:/^[0-9](\.[0-9][0-9][0-9])$/',
-            "category_id" =>'required|integer',
+            "category_id" => 'required|integer',
         ];
     }
 
-
-
-
+    public function messages()
+    {
+        return [
+            'price.regex' => "Only number are allowed for this field example 1.111",
+        ];
+    }
 
 }

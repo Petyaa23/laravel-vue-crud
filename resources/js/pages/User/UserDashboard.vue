@@ -41,7 +41,8 @@
                                         Edit
                                     </button>
 
-                                    <button type="button" class="mx-2 px-3 bg-gray-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-black hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-700 active:shadow-lg transition duration-150 ease-in-out"
+                                    <button type="button"
+                                            class="mx-2 px-3 bg-gray-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-black hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-700 active:shadow-lg transition duration-150 ease-in-out"
                                             data-bs-toggle="modalDeleteProduct" data-bs-target="#deleteProduct"
                                             @click="deleteProductModal(product.id)">
                                         Delete
@@ -57,11 +58,11 @@
                             @close="openAddProductModal = false">
                         </AddProducts>
                         <EditCategory
-                        v-if="openCategoryEditModal"
-                        @close="openCategoryEditModal = false"
-                        @moveCategory="moveCategory"
-                        :selectedCategory="selectedCategory"
-                        :changesCategory="changesCategory"
+                            v-if="openCategoryEditModal"
+                            @close="openCategoryEditModal = false"
+                            @moveCategory="moveCategory"
+                            :selectedCategory="selectedCategory"
+                            :changesCategory="changesCategory"
                         >
                         </EditCategory>
                         <EditProduct
@@ -69,8 +70,7 @@
                             @close="openProductEditModal = false"
                             @moveProduct="moveProduct"
                             :selectedProduct="selectedProduct"
-                            :changesProduct="changesProduct"
-                            :categories = "categories"
+                            :categories="categories"
                         >
                         </EditProduct>
                         <DeleteProduct
@@ -118,7 +118,8 @@
                                             class="px-3 py-2 bg-gray-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-black hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-700 active:shadow-lg transition duration-150 ease-in-out">
                                         Edit
                                     </button>
-                                    <button type="button" class="mx-2 px-3 bg-gray-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-black hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-700 active:shadow-lg transition duration-150 ease-in-out"
+                                    <button type="button"
+                                            class="mx-2 px-3 bg-gray-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-black hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-700 active:shadow-lg transition duration-150 ease-in-out"
                                             @click="deleteCategoryModal(category.id)">
                                         Delete
                                     </button>
@@ -146,12 +147,12 @@
 </template>
 
 <script>
-import AddCategory from './AddCategory.vue';
-import AddProducts from "./AddProducts.vue";
-import DeleteCategory from './DeleteCategory.vue';
-import DeleteProduct from "./DeleteProduct.vue";
-import EditCategory from "./EditCategory.vue";
-import EditProduct from "./EditProduct.vue";
+import AddCategory from '../../components/Category/AddCategory.vue';
+import AddProducts from "../../components/Product/AddProducts.vue";
+import DeleteCategory from '../../components/Category/DeleteCategory.vue';
+import DeleteProduct from "../../components/Product/DeleteProduct.vue";
+import EditCategory from "../../components/Category/EditCategory.vue";
+import EditProduct from "../../components/Product/EditProduct.vue";
 
 export default {
     name: "UserDashboard.vue",
@@ -179,17 +180,17 @@ export default {
             selectedCategoryId: null,
             openDeleteProductModal: false,
             openDeleteCategoryModal: false,
-            changesProduct:{},
-            changesCategory:{},
-            openAddCategoryModal:false,
-            openAddProductModal:false,
-            openCategoryEditModal:false,
-            openProductEditModal:false,
+            changesProduct: {},
+            changesCategory: {},
+            openAddCategoryModal: false,
+            openAddProductModal: false,
+            openCategoryEditModal: false,
+            openProductEditModal: false,
         }
     },
 
     methods: {
-        toggleModal () {
+        toggleModal() {
             this.showModal = !this.showModal;
         },
 
@@ -244,7 +245,7 @@ export default {
             this.changesProduct.name = product.name;
             this.changesProduct.price = product.price;
             this.changesProduct.category = product.category;
-            this.openProductEditModal= false;
+            this.openProductEditModal = false;
         },
 
         editCategory(category) {
@@ -255,8 +256,7 @@ export default {
             this.changesCategory = category;
         },
 
-        moveCategory(item) {
-            // this.selectedCategory = item;
+        moveCategory() {
             this.openCategoryEditModal = false
         }
     },

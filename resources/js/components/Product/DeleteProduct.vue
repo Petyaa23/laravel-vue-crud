@@ -21,7 +21,6 @@
                         Are you sure to delete this Product?
                     </p>
                 </div>
-                <!--footer-->
                 <div class="p-3  mt-2 text-center space-x-4 md:block">
                     <button
                         class="mb-2 md:mb-0 bg-gray-100 border border-red-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-gray rounded-full hover:shadow-lg hover:bg-gray-600"
@@ -43,14 +42,17 @@
 <script>
 export default {
     name: "DeleteProduct",
-    props: ['id'],
+    props: [
+        'id'
+    ],
+
     data() {
         return {
             showModal: false,
         }
     },
     methods: {
-        toggleModal () {
+        toggleModal() {
             this.showModal = !this.showModal;
         },
 
@@ -65,5 +67,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>
