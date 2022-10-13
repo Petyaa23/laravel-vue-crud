@@ -16,7 +16,7 @@
                             @click="$emit('close')">
                     </button>
                 </div>
-                <Form :validation-schema="schema" v-slot="{ errors }">
+                <Form :validation-schema="schema" v-slot="{ errors }" @submit="changeProduct">
                     <div class="modal-body relative p-4">
                         <label for="name"
                                class="text-gray-800 text-sm font-bold leading-tight tracking-normal">
@@ -69,7 +69,7 @@
                                 @click="$emit('close')">
                             Close
                         </button>
-                        <button type="button" @click=changeProduct
+                        <button type="submit"
                                 class="px-3 py-2 bg-gray-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-black hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-700 active:shadow-lg transition duration-150 ease-in-out">
                             Save
                         </button>
@@ -131,6 +131,5 @@ export default {
 }
 
 </script>
-
 <style scoped>
 </style>

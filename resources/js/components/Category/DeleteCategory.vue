@@ -42,6 +42,7 @@
 <script>
 export default {
     name: "DeleteCategory.vue",
+    emits: ["close", "deleteCategory"],
 
     props: [
         'id'

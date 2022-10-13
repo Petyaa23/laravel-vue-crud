@@ -53,13 +53,13 @@
                                 <template v-for="(link, key) in productsList.links" :key="key">
                                     <div
                                         v-if="link.url === null"
-                                        class="mr-1 mb-1 text-sm leading-4 text-gray-400 border rounded"
+                                        class="text-white mr-1 mb-1 px-2 py-1 text-sm leading-4 border rounded hover:bg-black focus:border-primary focus:text-primary text-decoration-none bg-gray-400"
                                         v-html="link.label"
                                     />
                                     <a
                                         v-else
-                                        class="mr-1 mb-1 px-2 py-1 text-sm leading-4 border rounded hover:bg-white focus:border-primary focus:text-primary"
-                                        :class="{ 'bg-blue-700 text-white': link.active }"
+                                        class="text-white mr-1 mb-1 px-2 py-1 text-sm leading-4 border rounded hover:bg-black focus:border-primary focus:text-primary text-decoration-none bg-gray-400"
+                                        :class="{ 'bg-gray-600 text-white': link.active }"
                                         :href="link.url"
                                         v-html="link.label"
                                     ></a>
@@ -101,8 +101,6 @@ export default {
             showModal: false,
             changeProduct: {},
             changeStatus: '',
-
-
         }
     },
     methods: {
@@ -119,10 +117,7 @@ export default {
 
     created() {
         this.productsList = this.products
-        console.log(this.products)
-
     }
-
 }
 
 </script>

@@ -16,7 +16,7 @@
                             @click="$emit('close')">
                     </button>
                 </div>
-                <Form :validation-schema="schema" v-slot="{ errors }">
+                <Form :validation-schema="schema" v-slot="{ errors }" @submit="changeCategory">
                     <div class="modal-body relative p-4">
                         <label for="name"
                                class="text-gray-800 text-sm font-bold leading-tight tracking-normal">
@@ -51,7 +51,7 @@
                         >
                             Close
                         </button>
-                        <button type="button" @click="changeCategory()"
+                        <button type="submit"
                                 class="px-6 py-2 bg-gray-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-700 hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-800 active:shadow-lg transition duration-150 ease-in-out">
                             Update
                         </button>
@@ -59,10 +59,9 @@
                 </Form>
             </div>
         </div>
-        <div v-if="showModal" class="opacity-25 fixed inset-0 z-40 bg-black"></div>
     </div>
-
 </template>
+
 <script>
 import {Form, Field} from 'vee-validate';
 import * as yup from "yup";
@@ -81,7 +80,6 @@ export default {
     data() {
         return {
             openEditCategoryModal: false,
-            showModal: false,
             category: {
                 name: '',
                 description: ''
