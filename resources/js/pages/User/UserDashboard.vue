@@ -26,7 +26,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="product in products">
+                            <tr v-for="product in products.data">
                                 <td class="border px-4 py-2">{{ product.name }}</td>
                                 <td class="border px-4 py-2" v-if="product.category">{{ product.category.name }}</td>
                                 <td class="border px-4 py-2" v-else></td>
@@ -51,8 +51,27 @@
                             </tr>
                             </tbody>
                         </table>
+                        <div v-if="products.links.length > 3">
+                            <div class="flex flex-wrap mt-8">
+                                <template v-for="(link, key) in products.links" :key="key">
+                                    <div
+                                        v-if="link.url === null"
+                                        class="mr-1 mb-1 text-sm leading-4 text-gray-400 border rounded"
+                                        v-html="link.label"
+                                    />
+                                    <a
+                                        v-else
+                                        class="mr-1 mb-1 px-2 py-1 text-sm leading-4 border rounded hover:bg-white focus:border-primary focus:text-primary"
+                                        :class="{ 'bg-blue-700 text-white': link.active }"
+                                        :href="link.url"
+                                        v-html="link.label"
+                                    ></a>
+                                </template>
+                            </div>
+                        </div>
+
                         <AddProducts
-                            :categories="categories"
+                            :categories="categories.data"
                             v-if="openAddProductModal"
                             @productAdd="productAdd"
                             @close="openAddProductModal = false">
@@ -70,7 +89,7 @@
                             @close="openProductEditModal = false"
                             @moveProduct="moveProduct"
                             :selectedProduct="selectedProduct"
-                            :categories="categories"
+                            :categories="categories.data"
                         >
                         </EditProduct>
                         <DeleteProduct
@@ -108,7 +127,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="category in categories">
+                            <tr v-for="category in categories.data">
                                 <td class="border px-4 py-2">{{ category.name }}</td>
                                 <td class="border px-4 py-2">{{ category.description }}</td>
                                 <td class="border px-4 py-2">active</td>
@@ -127,6 +146,24 @@
                             </tr>
                             </tbody>
                         </table>
+                        <div v-if="categories.links.length > 3">
+                            <div class="flex flex-wrap mt-8">
+                                <template v-for="(link, key) in categories.links" :key="key">
+                                    <div
+                                        v-if="link.url === null"
+                                        class="mr-1 mb-1 text-sm leading-4 text-gray-400 border rounded"
+                                        v-html="link.label"
+                                    />
+                                    <a
+                                        v-else
+                                        class="mr-1 mb-1 px-2 py-1 text-sm leading-4 border rounded hover:bg-white focus:border-primary focus:text-primary"
+                                        :class="{ 'bg-blue-700 text-white': link.active }"
+                                        :href="link.url"
+                                        v-html="link.label"
+                                    ></a>
+                                </template>
+                            </div>
+                        </div>
                         <AddCategory
                             v-if="openAddCategoryModal"
                             @categoryAdd="categoryAdd"
@@ -195,19 +232,22 @@ export default {
         },
 
         categoryAdd(item) {
-            this.categories.push(item);
+            this.categories.data.unshift(item);
+            this.categories.data.pop();
             this.openAddCategoryModal = false;
+
         },
 
         productAdd(item) {
-            this.products.push(item);
+            this.products.data.unshift(item);
+            this.products.data.pop();
             this.openAddProductModal = false;
         },
 
         deleteCategory() {
-            this.categories.forEach((item, index) => {
+            this.categories.data.forEach((item, index) => {
                 if (item.id === this.selectedCategoryId) {
-                    this.categories.splice(index, 1);
+                    this.categories.data.splice(index, 1);
                 }
             });
             this.openDeleteCategoryModal = false;
@@ -219,9 +259,9 @@ export default {
         },
 
         deleteProduct() {
-            this.products.forEach((item, index) => {
+            this.products.data.forEach((item, index) => {
                 if (item.id === this.selectedProductId) {
-                    this.products.splice(index, 1);
+                    this.products.data.splice(index, 1);
                 }
             });
             this.openDeleteProductModal = false;

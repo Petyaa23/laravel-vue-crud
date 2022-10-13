@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-    <admin-dashboard :products="{{$products}}"></admin-dashboard>
+    <admin-dashboard :products="{{ json_encode($products) }}" ></admin-dashboard>
 @endsection

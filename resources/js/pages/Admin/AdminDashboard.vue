@@ -21,7 +21,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="product in productsList">
+                            <tr v-for="product in productsList.data">
                                 <td class="border px-4 py-2" v-if="product.category">{{product.category.name}}</td>
                                 <td class="border px-4 py-2" v-else></td>
                                 <td class="border px-4 py-2">{{ product.name }}</td>
@@ -48,6 +48,24 @@
                             </tr>
                             </tbody>
                         </table>
+                        <div v-if="productsList.links.length > 3">
+                            <div class="flex flex-wrap mt-8">
+                                <template v-for="(link, key) in productsList.links" :key="key">
+                                    <div
+                                        v-if="link.url === null"
+                                        class="mr-1 mb-1 text-sm leading-4 text-gray-400 border rounded"
+                                        v-html="link.label"
+                                    />
+                                    <a
+                                        v-else
+                                        class="mr-1 mb-1 px-2 py-1 text-sm leading-4 border rounded hover:bg-white focus:border-primary focus:text-primary"
+                                        :class="{ 'bg-blue-700 text-white': link.active }"
+                                        :href="link.url"
+                                        v-html="link.label"
+                                    ></a>
+                                </template>
+                            </div>
+                        </div>
                         <ChangeStatus
                             v-if="openChangeStatusModal"
                             @changeProductStatus="changeProductStatus"

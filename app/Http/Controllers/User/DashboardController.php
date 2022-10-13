@@ -12,8 +12,8 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $products = Product::where('user_id', auth()->id())->with('category')->get();
-        $categories = Category::where('user_id', auth()->id())->get();
+        $products = Product::where('user_id', auth()->id())->with('category')->paginate(5);
+        $categories = Category::where('user_id', auth()->id())->paginate(5);
         return view('dashboard.user-dashboard')->with(compact('products', 'categories'));
     }
 

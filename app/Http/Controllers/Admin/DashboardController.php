@@ -17,10 +17,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $pages = 5;
-        $products = Product::with('category')->paginate($pages)->items();
-        $products = Product::with('category')->get();
-//        $products = $products->paginate(2);
+        $products = Product::with('category')->paginate(5);
         return view('dashboard.admin-dashboard')->with(compact('products'));
     }
 
