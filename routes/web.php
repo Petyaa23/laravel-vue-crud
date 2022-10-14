@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\User\DashboardController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,9 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
 
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('get-categories', [App\Http\Controllers\User\DashboardController::class, 'getCategories'])->name('get.categories');
+    Route::get('get-products', [App\Http\Controllers\User\DashboardController::class, 'getProducts'])->name('get.products');
+    Route::get('get-category-list', [App\Http\Controllers\User\DashboardController::class, 'getCategoryList'])->name('get.category.list');
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/dashboard', [App\Http\Controllers\User\DashboardController::class, 'index'])->name('dashboard');
     Route::post('/add-products', [App\Http\Controllers\User\DashboardController::class, 'addProduct'])->name('add.product');

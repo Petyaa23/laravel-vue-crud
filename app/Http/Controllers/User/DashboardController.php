@@ -12,9 +12,32 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $products = Product::where('user_id', auth()->id())->with('category')->orderBy('id', 'DESC')->paginate(5);
-        $categories = Category::where('user_id', auth()->id())->paginate(5);
-        return view('dashboard.user-dashboard')->with(compact('products', 'categories'));
+        return view('dashboard.user-dashboard');
+    }
+
+    public function getCategories()
+    {
+        $categories = Category::where('user_id', auth()->id())
+            ->orderBy('id', 'DESC')
+            ->paginate(5);
+        return response()->json(['categories' => $categories]);
+
+    }
+
+    public function getProducts()
+    {
+        $products = Product::where('user_id', auth()->id())
+            ->with('category')
+            ->orderBy('id', 'DESC')
+            ->paginate(5);
+        return response()->json(['products' => $products]);
+    }
+
+
+    public function getCategoryList()
+    {
+        $categoryList = Category::where('user_id', auth()->id())->get();
+        return response()->json(['category_list' => $categoryList]);
     }
 
     public function addProduct(AddProductRequest $request)

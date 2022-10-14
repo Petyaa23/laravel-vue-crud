@@ -47,6 +47,7 @@
                                 {{ category.name }}
                             </option>
                         </Field>
+
                         <div class="invalid-feedback">{{ errors.category }}</div>
                         <label for="price"
                                class="pt-5 text-gray-800 text-sm font-bold leading-tight tracking-normal">
@@ -93,6 +94,7 @@ export default {
 
     props: [
         'categories',
+
     ],
 
     data() {
@@ -127,16 +129,13 @@ export default {
         toggleModal() {
             this.showModal = !this.showModal;
         },
+
         addProduct() {
-            this.product.category_id = this.categoryId;
             axios.post('/add-products', this.product)
-                .then(res => {
-                    this.$emit('productAdd', res.data.product);
+                .then(response => {
+                    this.$emit('addProduct', response.data.product);
                 })
-                .catch(
-                    error => {
-                        console.log('500 Internal Server Error');
-                    });
+                .catch(error => console.log(error))
         },
     },
 }

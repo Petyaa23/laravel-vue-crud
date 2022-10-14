@@ -14,64 +14,68 @@
                                 Add Product
                             </button>
                         </div>
-                        <table class="table-fixed w-full">
-                            <thead>
-                            <tr class="bg-gray-200">
-                                <th class="px-4 py-2">Name</th>
-                                <th class="px-4 py-2">Category</th>
-                                <th class="px-4 py-2">Price</th>
-                                <th class="px-4 py-2">Status</th>
-                                <th class="px-4 py-2">Created Date</th>
-                                <th class="px-4 py-2">Action</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr v-for="product in products.data">
-                                <td class="border px-4 py-2">{{ product.name }}</td>
-                                <td class="border px-4 py-2" v-if="product.category">{{ product.category.name }}</td>
-                                <td class="border px-4 py-2" v-else></td>
-                                <td class="border px-4 py-2">{{ product.price }}</td>
-                                <td class="border px-4 py-2">{{ product.status }}</td>
-                                <td class="border px-4 py-2">{{ product.created_at }}</td>
-                                <td class="d-flex pl-4 py-1 md:border md:border-grey-500 text-left block md:table-cell">
+                        <div v-if="Object.values(products).length">
+                            <table class="table-fixed w-full">
+                                <thead>
+                                <tr class="bg-gray-200">
+                                    <th class="px-4 py-2">Name</th>
+                                    <th class="px-4 py-2">Category</th>
+                                    <th class="px-4 py-2">Price</th>
+                                    <th class="px-4 py-2">Status</th>
+                                    <th class="px-4 py-2">Created Date</th>
+                                    <th class="px-4 py-2">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for="product in products.data">
+                                    <td class="border px-4 py-2">{{ product.name }}</td>
+                                    <td class="border px-4 py-2" v-if="product.category">{{ product.category.name }}</td>
+                                    <td class="border px-4 py-2" v-else></td>
+                                    <td class="border px-4 py-2">{{ product.price }}</td>
+                                    <td class="border px-4 py-2">{{ product.status }}</td>
+                                    <td class="border px-4 py-2">{{ product.created_at }}</td>
+                                    <td class="d-flex pl-4 py-1 md:border md:border-grey-500 text-left block md:table-cell">
 
-                                    <button type="button" @click="editProduct(product)"
-                                            class="px-3 py-2 bg-gray-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-black hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-700 active:shadow-lg transition duration-150 ease-in-out"
-                                    >
-                                        Edit
-                                    </button>
+                                        <button type="button" @click="editProduct(product)"
+                                                class="px-3 py-2 bg-gray-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-black hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-700 active:shadow-lg transition duration-150 ease-in-out"
+                                        >
+                                            Edit
+                                        </button>
 
-                                    <button type="button"
-                                            class="mx-2 px-3 bg-gray-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-black hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-700 active:shadow-lg transition duration-150 ease-in-out"
-                                            data-bs-toggle="modalDeleteProduct" data-bs-target="#deleteProduct"
-                                            @click="deleteProductModal(product.id)">
-                                        Delete
-                                    </button>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <div v-if="products.links.length >= 3">
-                            <div class="flex flex-wrap mt-8">
-                                <template v-for="(link, key) in products.links" :key="key">
-                                    <div
-                                        v-if="link.url === null"
-                                        class="text-white mr-1 mb-1 px-2 py-1 text-sm leading-4 border rounded hover:bg-black focus:border-primary focus:text-primary text-decoration-none bg-gray-400"
-                                        v-html="link.label"
-                                    />
-                                    <a
-                                        v-else
-                                        class="text-white mr-1 mb-1 px-2 py-1 text-sm leading-4 border rounded hover:bg-black focus:border-primary focus:text-primary text-decoration-none bg-gray-400"
-                                        :class="{ 'bg-gray-600 text-white': link.active }"
-                                        :href="link.url"
-                                        v-html="link.label"
-                                    ></a>
-                                </template>
+                                        <button type="button"
+                                                class="mx-2 px-3 bg-gray-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-black hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-700 active:shadow-lg transition duration-150 ease-in-out"
+                                                data-bs-toggle="modalDeleteProduct" data-bs-target="#deleteProduct"
+                                                @click="deleteProductModal(product.id)">
+                                            Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div v-if="products.links.length > 3">
+                                <div class="mt-10 flex justify-center mt-8">
+                                    <template v-for="(link, key) in products.links" :key="key">
+                                        <div
+                                            v-if="link.url === null"
+                                            class="py-1.5 px-3 border-0 bg-transparent outline-none transition-all duration-300 rounded-full text-gray-500 pointer-events-none focus:shadow-none"
+                                            v-html="link.label"
+                                        />
+                                        <button
+                                            v-else
+                                            @click="getProducts(link.url)"
+                                            class="mr-1 mb-1 px-2 py-1 text-sm leading-4 border rounded hover:bg-white focus:border-primary focus:text-primary"
+                                            :class="{ 'bg-blue-700 text-white': link.active }"
+                                            v-html="link.label"
+                                        ></button>
+                                    </template>
+                                </div>
                             </div>
                         </div>
-
+                        <div v-else>
+                            Loading...
+                        </div>
                         <AddProducts
-                            :categories="categories.data"
+                            :categories="categoryList"
                             v-if="openAddProductModal"
                             @productAdd="productAdd"
                             @close="openAddProductModal = false">
@@ -85,11 +89,11 @@
                         >
                         </EditCategory>
                         <EditProduct
+                            :categories="categoryList"
                             v-if="openProductEditModal"
                             @close="openProductEditModal = false"
                             @moveProduct="moveProduct"
                             :selectedProduct="selectedProduct"
-                            :categories="categories.data"
                         >
                         </EditProduct>
                         <DeleteProduct
@@ -116,53 +120,59 @@
                                 Add Category
                             </button>
                         </div>
-                        <table class="table-fixed w-full">
-                            <thead>
-                            <tr class="bg-gray-200">
-                                <th class="px-4 py-2">Name</th>
-                                <th class="px-4 py-2">Description</th>
-                                <th class="px-4 py-2">Status</th>
-                                <th class="px-4 py-2">Created Date</th>
-                                <th class="px-4 py-2">Action</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr v-for="category in categories.data">
-                                <td class="border px-4 py-2">{{ category.name }}</td>
-                                <td class="border px-4 py-2">{{ category.description }}</td>
-                                <td class="border px-4 py-2">active</td>
-                                <td class="border px-4 py-2">{{ category.created_at }}</td>
-                                <td class="d-flex py-1 pl-8 md:border md:border-grey-500 text-left block md:table-cell">
-                                    <button type="button" @click="editCategory(category)"
-                                            class="px-3 py-2 bg-gray-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-black hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-700 active:shadow-lg transition duration-150 ease-in-out">
-                                        Edit
-                                    </button>
-                                    <button type="button"
-                                            class="mx-2 px-3 bg-gray-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-black hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-700 active:shadow-lg transition duration-150 ease-in-out"
-                                            @click="deleteCategoryModal(category.id)">
-                                        Delete
-                                    </button>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <div v-if="categories.links.length > 3">
-                            <div class="flex flex-wrap mt-8">
-                                <template v-for="(link, key) in categories.links" :key="key">
-                                    <div
-                                        v-if="link.url === null"
-                                        class="text-white mr-1 mb-1 px-2 py-1 text-sm leading-4 border rounded hover:bg-black focus:border-primary focus:text-primary text-decoration-none bg-gray-400"
-                                        v-html="link.label"
-                                    />
-                                    <a
-                                        v-else
-                                        class="text-white mr-1 mb-1 px-2 py-1 text-sm leading-4 border rounded hover:bg-black focus:border-primary focus:text-primary text-decoration-none bg-gray-400"
-                                        :class="{ 'bg-gray-600 text-white': link.active }"
-                                        :href="link.url"
-                                        v-html="link.label"
-                                    ></a>
-                                </template>
+                        <div v-if="Object.values(categories).length">
+                            <table class="table-fixed w-full">
+                                <thead>
+                                <tr class="bg-gray-200">
+                                    <th class="px-4 py-2">Name</th>
+                                    <th class="px-4 py-2">Description</th>
+                                    <th class="px-4 py-2">Status</th>
+                                    <th class="px-4 py-2">Created Date</th>
+                                    <th class="px-4 py-2">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for="category in categories.data">
+                                    <td class="border px-4 py-2">{{ category.name }}</td>
+                                    <td class="border px-4 py-2">{{ category.description }}</td>
+                                    <td class="border px-4 py-2">active</td>
+                                    <td class="border px-4 py-2">{{ category.created_at }}</td>
+                                    <td class="d-flex py-1 pl-8 md:border md:border-grey-500 text-left block md:table-cell">
+                                        <button type="button" @click="editCategory(category)"
+                                                class="px-3 py-2 bg-gray-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-black hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-700 active:shadow-lg transition duration-150 ease-in-out">
+                                            Edit
+                                        </button>
+                                        <button type="button"
+                                                class="mx-2 px-3 bg-gray-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-black hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-700 active:shadow-lg transition duration-150 ease-in-out"
+                                                @click="deleteCategoryModal(category.id)">
+                                            Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div v-if="categories.links.length > 3">
+                                <div class="mt-10 flex justify-center mt-8">
+                                    <template v-for="(link, key) in categories.links" :key="key">
+                                        <div
+                                            v-if="link.url === null"
+                                            class="py-1.5 px-3 border-0 bg-transparent outline-none transition-all duration-300 rounded-full text-gray-500 pointer-events-none focus:shadow-none"
+                                            v-html="link.label"
+                                        />
+                                        <button
+                                            v-else
+                                            @click="getCategories(link.url)"
+                                            class="mr-1 mb-1 px-2 py-1 text-sm leading-4 border rounded hover:bg-white focus:border-primary focus:text-primary"
+                                            :class="{ 'bg-blue-700 text-white': link.active }"
+                                            v-html="link.label"
+                                        ></button>
+                                    </template>
+                                </div>
                             </div>
+                        </div>
+
+                        <div v-else>
+                            Loading...
                         </div>
                         <AddCategory
                             v-if="openAddCategoryModal"
@@ -205,7 +215,8 @@ export default {
 
     props: [
         'categories',
-        'products'
+        'products',
+        'category_list'
     ],
 
     data() {
@@ -223,6 +234,9 @@ export default {
             openAddProductModal: false,
             openCategoryEditModal: false,
             openProductEditModal: false,
+            categories: {},
+            products: {},
+            categoryList: [],
         }
     },
 
@@ -233,9 +247,12 @@ export default {
 
         categoryAdd(item) {
             this.categories.data.unshift(item);
-            this.categories.data.pop();
+            if(this.categories.data.length > 5) {
+                this.categories.data.pop();
+            } else {
+                this.categories.data.push(item)
+            }
             this.openAddCategoryModal = false;
-
         },
 
         productAdd(item) {
@@ -298,9 +315,33 @@ export default {
 
         moveCategory() {
             this.openCategoryEditModal = false
+        },
+        getCategories(link = null) {
+            console.log(link);
+            axios.get(link ?? '/get-categories').then(res => {
+                this.categories = res.data.categories;
+            });
+        },
+
+        getProducts(link = null) {
+            axios.get(link ?? '/get-products').then(res => {
+                this.products = res.data.products;
+            });
+        },
+
+        getCategoryList() {
+            axios.get('/get-category-list').then(res => {
+                this.categoryList = res.data.category_list;
+            });
         }
     },
+    created() {
+        this.getCategories();
+        this.getProducts();
+        this.getCategoryList();
+    }
 }
+
 </script>
 
 <style scoped>
