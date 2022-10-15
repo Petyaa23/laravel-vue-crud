@@ -131,13 +131,17 @@ export default {
         },
 
         addProduct() {
+            this.product.category_id = this.categoryId;
             axios.post('/add-products', this.product)
                 .then(response => {
-                    this.$emit('addProduct', response.data.product);
+                    this.$emit('productAdd', response.data.product);
                 })
                 .catch(error => console.log(error))
         },
     },
+    created() {
+        console.log(this.product)
+    }
 }
 </script>
 

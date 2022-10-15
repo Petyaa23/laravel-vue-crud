@@ -7,24 +7,36 @@ use App\Http\Requests\AddCategoryRequest;
 use App\Http\Requests\AddProductRequest;
 use App\Models\Category;
 use App\Models\Product;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 
 class DashboardController extends Controller
 {
-    public function index()
+    /**
+     * @return Application|Factory|View
+     */
+    public function index(): View|Factory|Application
     {
         return view('dashboard.user-dashboard');
     }
 
-    public function getCategories()
+    /**
+     * @return JsonResponse
+     */
+    public function getCategories(): JsonResponse
     {
         $categories = Category::where('user_id', auth()->id())
             ->orderBy('id', 'DESC')
             ->paginate(5);
         return response()->json(['categories' => $categories]);
-
     }
 
-    public function getProducts()
+    /**
+     * @return JsonResponse
+     */
+    public function getProducts(): JsonResponse
     {
         $products = Product::where('user_id', auth()->id())
             ->with('category')
@@ -33,14 +45,20 @@ class DashboardController extends Controller
         return response()->json(['products' => $products]);
     }
 
-
-    public function getCategoryList()
+    /**
+     * @return JsonResponse
+     */
+    public function getCategoryList(): JsonResponse
     {
         $categoryList = Category::where('user_id', auth()->id())->get();
         return response()->json(['category_list' => $categoryList]);
     }
 
-    public function addProduct(AddProductRequest $request)
+    /**
+     * @param AddProductRequest $request
+     * @return JsonResponse
+     */
+    public function addProduct(AddProductRequest $request): JsonResponse
     {
         $product = Product::create(
             [
@@ -50,14 +68,20 @@ class DashboardController extends Controller
                 'category_id' => $request->input('category_id')
             ]
         );
-        $product = Product::where('id', $product->id)->with('category')->first();
+        $product = Product::where('id', $product->id)
+            ->with('category')
+            ->first();
         return response()->json([
             'status' => 'success',
             'product' => $product
         ]);
     }
 
-    public function addCategory(AddCategoryRequest $request)
+    /**
+     * @param AddCategoryRequest $request
+     * @return JsonResponse
+     */
+    public function addCategory(AddCategoryRequest $request): JsonResponse
     {
         $category = Category::create(
             [
@@ -72,21 +96,33 @@ class DashboardController extends Controller
         ]);
     }
 
-    public function destroyProduct($id)
+    /**
+     * @param $id
+     * @return JsonResponse
+     */
+    public function destroyProduct($id): JsonResponse
     {
         $product = Product::find($id);
         $product->delete();
         return response()->json('Product successfully deleted!');
     }
 
-    public function destroyCategory($id)
+    /**
+     * @param $id
+     * @return JsonResponse
+     */
+    public function destroyCategory($id): JsonResponse
     {
         $category = Category::find($id);
         $category->delete();
         return response()->json('Category successfully deleted!');
     }
 
-    public function updateCategory(AddCategoryRequest $request)
+    /**
+     * @param AddCategoryRequest $request
+     * @return JsonResponse
+     */
+    public function updateCategory(AddCategoryRequest $request): JsonResponse
     {
         $id = $request->input('id');
         $category = Category::where('id', $id)->update(
@@ -101,7 +137,11 @@ class DashboardController extends Controller
         ]);
     }
 
-    public function updateProduct(AddProductRequest $request)
+    /**
+     * @param AddProductRequest $request
+     * @return JsonResponse
+     */
+    public function updateProduct(AddProductRequest $request): JsonResponse
     {
         $id = $request->input('id');
         $product = Product::where('id', $id)->update(

@@ -15,13 +15,18 @@ class DashboardController extends Controller
     /**
      * @return Application|Factory|View
      */
-    public function index()
+    public function index(): View|Factory|Application
     {
         $products = Product::with('category')->paginate(5);
         return view('dashboard.admin-dashboard')->with(compact('products'));
     }
 
-    public function changeStatus(Request $request)
+    /**
+     * @param Request $request
+     * @return void
+     */
+
+    public function changeStatus(Request $request): void
     {
         $productId = $request->input('id');
         $status = $request->input('status');

@@ -29,7 +29,7 @@
                                 <tbody>
                                 <tr v-for="product in products.data">
                                     <td class="border px-4 py-2">{{ product.name }}</td>
-                                    <td class="border px-4 py-2" v-if="product.category">{{ product.category.name }}</td>
+                                    <td class="border px-4 py-2" v-if="product.category_id">{{ product.category.name }}</td>
                                     <td class="border px-4 py-2" v-else></td>
                                     <td class="border px-4 py-2">{{ product.price }}</td>
                                     <td class="border px-4 py-2">{{ product.status }}</td>
@@ -52,19 +52,19 @@
                                 </tr>
                                 </tbody>
                             </table>
-                            <div v-if="products.links.length > 3">
+                            <div class="d-flex" v-if="products.links.length > 3">
                                 <div class="mt-10 flex justify-center mt-8">
                                     <template v-for="(link, key) in products.links" :key="key">
                                         <div
                                             v-if="link.url === null"
-                                            class="py-1.5 px-3 border-0 bg-transparent outline-none transition-all duration-300 rounded-full text-gray-500 pointer-events-none focus:shadow-none"
+                                            class="text-white mr-1 mb-1 px-2 py-1 text-sm leading-4 border rounded hover:bg-black focus:border-primary focus:text-primary text-decoration-none bg-gray-400"
                                             v-html="link.label"
                                         />
                                         <button
                                             v-else
                                             @click="getProducts(link.url)"
-                                            class="mr-1 mb-1 px-2 py-1 text-sm leading-4 border rounded hover:bg-white focus:border-primary focus:text-primary"
-                                            :class="{ 'bg-blue-700 text-white': link.active }"
+                                            class="text-white mr-1 mb-1 px-2 py-1 text-sm leading-4 border rounded hover:bg-black focus:border-primary focus:text-primary text-decoration-none bg-gray-400"
+                                            :class="{ 'bg-gray-800 text-white': link.active }"
                                             v-html="link.label"
                                         ></button>
                                     </template>
@@ -151,19 +151,19 @@
                                 </tr>
                                 </tbody>
                             </table>
-                            <div v-if="categories.links.length > 3">
+                            <div class="d-flex" v-if="categories.links.length > 3">
                                 <div class="mt-10 flex justify-center mt-8">
                                     <template v-for="(link, key) in categories.links" :key="key">
                                         <div
                                             v-if="link.url === null"
-                                            class="py-1.5 px-3 border-0 bg-transparent outline-none transition-all duration-300 rounded-full text-gray-500 pointer-events-none focus:shadow-none"
+                                            class="text-white mr-1 mb-1 px-2 py-1 text-sm leading-4 border rounded hover:bg-black focus:border-primary focus:text-primary text-decoration-none bg-gray-400"
                                             v-html="link.label"
                                         />
                                         <button
                                             v-else
                                             @click="getCategories(link.url)"
-                                            class="mr-1 mb-1 px-2 py-1 text-sm leading-4 border rounded hover:bg-white focus:border-primary focus:text-primary"
-                                            :class="{ 'bg-blue-700 text-white': link.active }"
+                                            class="text-white mr-1 mb-1 px-2 py-1 text-sm leading-4 border rounded hover:bg-black focus:border-primary focus:text-primary text-decoration-none bg-gray-400"
+                                            :class="{ 'bg-gray-800 text-white': link.active }"
                                             v-html="link.label"
                                         ></button>
                                     </template>
@@ -316,8 +316,8 @@ export default {
         moveCategory() {
             this.openCategoryEditModal = false
         },
+
         getCategories(link = null) {
-            console.log(link);
             axios.get(link ?? '/get-categories').then(res => {
                 this.categories = res.data.categories;
             });
@@ -335,6 +335,7 @@ export default {
             });
         }
     },
+
     created() {
         this.getCategories();
         this.getProducts();
