@@ -21,18 +21,27 @@ class DashboardController extends Controller
         return view('dashboard.admin-dashboard')->with(compact('products'));
     }
 
-    /**
-     * @param Request $request
-     * @return void
-     */
 
-    public function changeStatus(Request $request): void
+
+//    public function changeStatus(Request $request): void
+//    {
+//
+//        $productId = $request->input('id');
+//        $status = $request->input('status');
+//        Product::where('id', $productId)->update([
+//            'status' => $status
+//        ]);
+//    }
+
+    public function changeStatus(Request $request)
     {
-        $productId = $request->input('id');
+        $id = $request->input('id');
         $status = $request->input('status');
-        Product::where('id', $productId)->update([
-            'status' => $status
-        ]);
+
+        Product::where('id', $id)->update(['status' => $status]);
+
+        return response()->json('The Product successfully changed.');
+
     }
 
 }
