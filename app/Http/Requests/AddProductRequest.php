@@ -38,3 +38,13 @@ class AddProductRequest extends FormRequest
     }
 
 }
+
+//public function rules()
+//{
+//    $path = explode('/', request()->path());
+//    return [
+//        'id' => end($path) === 'edit' ? 'required' : '',
+//        'name' => 'required|string|min:3|max:35',
+//        'description' => 'required|string|min:3|max:500',
+//    ];
+//}

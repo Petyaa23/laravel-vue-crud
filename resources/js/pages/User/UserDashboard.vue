@@ -348,3 +348,16 @@ export default {
 <style scoped>
 </style>
 
+<!--this.products.total++;-->
+
+<!--const pagesCount = Math.ceil(this.products.total / 5);-->
+
+<!--if (pagesCount > (this.products.links.length -2)) {-->
+<!--const link = {-->
+<!--url: 'http://localhost:6868/get-products?page=' + pagesCount,-->
+<!--label: pagesCount,-->
+<!--active: false-->
+<!--};-->
+<!--this.products.links.splice(this.products.links.length - 1, 0, link);-->
+<!--}-->
+
