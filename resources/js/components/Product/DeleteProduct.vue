@@ -29,7 +29,7 @@
                     </button>
                     <button
                         class="mb-2 md:mb-0 bg-gray-100 border border-red-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-gray rounded-full hover:shadow-lg hover:bg-gray-600"
-                        type="button" @click="toggleModal(); deleteProduct()">
+                        type="button" @click="toggleModal; deleteProduct">
                         Delete
                     </button>
                 </div>
@@ -42,9 +42,14 @@
 <script>
 export default {
     name: "DeleteProduct",
-    emits: ["close", "deleteProduct"],
+    emits: [
+        "close",
+        "deleteProduct"
+    ],
+
     props: [
-        'id'
+        'id',
+        'current_page'
     ],
 
     data() {
@@ -58,9 +63,10 @@ export default {
         },
 
         deleteProduct() {
-            axios.post(`delete-products/${this.id}`, this.product)
-                .then(() => {
-                    this.$emit('deleteProduct');
+            axios.post(`/delete-products`,
+                {id: this.id, current_page: this.current_page})
+                .then((res) => {
+                    this.$emit('deleteProduct',res.data.product);
                 });
         },
     }

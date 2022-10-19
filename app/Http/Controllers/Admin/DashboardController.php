@@ -12,10 +12,8 @@ use Illuminate\Http\Request;
 class DashboardController extends Controller
 {
 
-    /**
-     * @return Application|Factory|View
-     */
-    public function index(): View|Factory|Application
+
+    public function index()
     {
         $products = Product::with('category')->paginate(5);
         return view('dashboard.admin-dashboard')->with(compact('products'));
@@ -37,9 +35,7 @@ class DashboardController extends Controller
     {
         $id = $request->input('id');
         $status = $request->input('status');
-
         Product::where('id', $id)->update(['status' => $status]);
-
         return response()->json('The Product successfully changed.');
 
     }

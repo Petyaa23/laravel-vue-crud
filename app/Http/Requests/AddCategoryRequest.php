@@ -25,6 +25,7 @@ class AddCategoryRequest extends FormRequest
     public function rules()
     {
         return [
+            'id' => request()->path() === 'update-category' ? 'required' : '',
             'name' => 'required|string|min:3|max:35',
             'description' => 'nullable|string|max:1000',
         ];

@@ -32,7 +32,7 @@
                                     <button
                                         v-if="product.status === 'inactive' || product.status === 'pending'"
                                         class="px-3 py-2 bg-black text-white font-medium text-xs leading-tight rounded shadow-md hover:bg-gray-400 hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-black active:shadow-lg transition duration-150 ease-in-out"
-                                        @click="changeStatusModal(product, 'active')"
+                                        @click="updateProductStatus(product, 'active')"
                                         >
                                         Active
                                     </button>
@@ -40,7 +40,7 @@
                                     <button
                                         v-if="product.status === 'active' || product.status === 'pending'"
                                         class="px-3 py-2 bg-gray-400 text-white font-medium text-xs leading-tight rounded shadow-md hover:bg-black hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-700 active:shadow-lg transition duration-150 ease-in-out"
-                                        @click="changeStatusModal(product, 'inactive')"
+                                        @click="updateProductStatus(product, 'inactive')"
                                     >
                                         Inactive
                                     </button>
@@ -98,13 +98,13 @@ export default {
         return {
             openChangeStatusModal:false,
             productsList: [],
-            showModal: false,
+            // showModal: false,
             changeProduct: {},
             changeStatus: '',
         }
     },
     methods: {
-        changeStatusModal(product,status) {
+        updateProductStatus(product,status) {
             this.changeProduct = product;
             this.changeStatus = status;
             this.openChangeStatusModal = !this.openChangeStatusModal
@@ -117,6 +117,7 @@ export default {
 
     created() {
         this.productsList = this.products
+        console.log(this.product)
     }
 }
 

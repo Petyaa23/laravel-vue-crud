@@ -45,7 +45,8 @@ export default {
     emits: ["close", "deleteCategory"],
 
     props: [
-        'id'
+        'id',
+        'current_page'
     ],
 
     data() {
@@ -60,9 +61,10 @@ export default {
         },
 
         deleteCategory() {
-            axios.post(`delete-category/${this.id}`, this.category)
-                .then(() => {
-                    this.$emit('deleteCategory');
+            axios.post(`/delete-category`,
+                {id: this.id, current_page: this.current_page})
+                .then((res) => {
+                    this.$emit('deleteCategory', res.data.category);
                 });
         },
     }

@@ -97,6 +97,7 @@
                         >
                         </EditProduct>
                         <DeleteProduct
+                            :current_page="products.current_page"
                             v-if="openDeleteProductModal"
                             :id="selectedProductId"
                             @close="openDeleteProductModal = false"
@@ -181,6 +182,7 @@
                         >
                         </AddCategory>
                         <DeleteCategory
+                            :current_page="categories.current_page"
                             v-if="openDeleteCategoryModal"
                             :id="selectedCategoryId"
                             @close="openDeleteCategoryModal = false"
@@ -246,27 +248,54 @@ export default {
         },
 
         categoryAdd(item) {
-            this.categories.data.unshift(item);
+            if (this.categories.current_page === 1 ) {
+                this.categories.data.unshift(item);
+            }
+
             if(this.categories.data.length > 5) {
                 this.categories.data.pop();
-            } else {
-                this.categories.data.push(item)
+            }
+            this.categories.total++;
+            const perPage = Math.ceil(this.categories.total / 5);
+            if (perPage > (this.categories.links.length - 2)) {
+                const categoriesLink = {
+                    url: window.location.origin + '/get-categories?page=' + perPage,
+                    label: perPage,
+                    active: false
+                };
+                this.categories.links.splice(this.categories.links.length - 1, 0, categoriesLink);
             }
             this.openAddCategoryModal = false;
         },
 
         productAdd(item) {
-            this.products.data.unshift(item);
-            this.products.data.pop();
+            if (this.products.current_page === 1 ) {
+                this.products.data.unshift(item);
+            }
+
+            if(this.products.data.length > 5) {
+                this.products.data.pop();
+            }
+            this.products.total++;
+            const perPage = Math.ceil(this.products.total / 5);
+            if (perPage > (this.products.links.length - 2)) {
+                const productsLink = {
+                    url: window.location.origin + '/get-products?page=' + perPage,
+                    label: perPage,
+                    active: false
+                };
+                this.products.links.splice(this.products.links.length - 1, 0, productsLink);
+            }
             this.openAddProductModal = false;
         },
 
-        deleteCategory() {
+        deleteCategory(category) {
             this.categories.data.forEach((item, index) => {
                 if (item.id === this.selectedCategoryId) {
                     this.categories.data.splice(index, 1);
                 }
             });
+            this.categories.data.push(category);
             this.openDeleteCategoryModal = false;
         },
 
@@ -275,12 +304,13 @@ export default {
             this.selectedCategoryId = id;
         },
 
-        deleteProduct() {
+        deleteProduct(products) {
             this.products.data.forEach((item, index) => {
                 if (item.id === this.selectedProductId) {
                     this.products.data.splice(index, 1);
                 }
             });
+            this.products.data.push(products);
             this.openDeleteProductModal = false;
         },
 
@@ -348,16 +378,5 @@ export default {
 <style scoped>
 </style>
 
-<!--this.products.total++;-->
 
-<!--const pagesCount = Math.ceil(this.products.total / 5);-->
-
-<!--if (pagesCount > (this.products.links.length -2)) {-->
-<!--const link = {-->
-<!--url: 'http://localhost:6868/get-products?page=' + pagesCount,-->
-<!--label: pagesCount,-->
-<!--active: false-->
-<!--};-->
-<!--this.products.links.splice(this.products.links.length - 1, 0, link);-->
-<!--}-->
 

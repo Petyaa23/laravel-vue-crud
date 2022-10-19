@@ -139,9 +139,6 @@ export default {
                 .catch(error => console.log(error))
         },
     },
-    created() {
-        console.log(this.product)
-    }
 }
 </script>
 

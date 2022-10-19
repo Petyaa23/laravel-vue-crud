@@ -15,7 +15,7 @@
                     </button>
                     <button
                         class="mb-2 md:mb-0 bg-gray-100 border border-red-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-gray rounded-full hover:shadow-lg hover:bg-gray-600"
-                        type="button" @click="changeProductStatus">
+                        type="button" @click="updateProductStatus">
                         Yes
                     </button>
                 </div>
@@ -36,14 +36,14 @@ export default {
     },
     props: [
         'status',
-        'changeStatusId'
+        'changeProductId'
     ],
 
     methods: {
 
-        changeProductStatus(status) {
+        updateProductStatus(status) {
             axios.post('admin/change-status', {
-                id: this.changeStatusId,
+                id: this.changeProductId,
                 status: this.status
             })
                 .then(res => {
@@ -55,6 +55,10 @@ export default {
                     })
         }
     },
+    created() {
+        // console.log(this.changeStatusId);
+        // console.log(this.status)
+    }
 }
 </script>
 

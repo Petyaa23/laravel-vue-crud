@@ -11,6 +11,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
@@ -96,27 +97,28 @@ class DashboardController extends Controller
         ]);
     }
 
-    /**
-     * @param $id
-     * @return JsonResponse
-     */
-    public function destroyProduct($id): JsonResponse
+
+//    public function destroyProduct(Request $request)
+//    {
+//        $id = $request->input('id');
+//        Product::find($id)->delete();
+//        $product = Product::orderBy('id', 'desc')->skip($request->input('current_page') * 5 - 1)->first();
+//        return response()->json(['message' => 'Product successfully deleted!',
+//            'product' => $product]);
+//
+//    }
+
+
+    public function destroyCategory(Request $request): JsonResponse
     {
-        $product = Product::find($id);
-        $product->delete();
-        return response()->json('Product successfully deleted!');
+        $id = $request->input('id');
+        Category::find($id)->delete();
+        Product::where('category_id', $id)->delete();
+        $category = Category::orderBy('id', 'desc')->skip($request->input('current_page') * 5 - 1)->first();
+        return response()->json(['message' => 'Category deleted!',
+            'category' => $category]);
     }
 
-    /**
-     * @param $id
-     * @return JsonResponse
-     */
-    public function destroyCategory($id): JsonResponse
-    {
-        $category = Category::find($id);
-        $category->delete();
-        return response()->json('Category successfully deleted!');
-    }
 
     /**
      * @param AddCategoryRequest $request
