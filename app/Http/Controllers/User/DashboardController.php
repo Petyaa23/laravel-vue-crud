@@ -98,15 +98,23 @@ class DashboardController extends Controller
     }
 
 
-//    public function destroyProduct(Request $request)
-//    {
-//        $id = $request->input('id');
-//        Product::find($id)->delete();
-//        $product = Product::orderBy('id', 'desc')->skip($request->input('current_page') * 5 - 1)->first();
-//        return response()->json(['message' => 'Product successfully deleted!',
-//            'product' => $product]);
-//
-//    }
+    public function destroyProduct(Request $request)
+    {
+        $id = $request->input('id');
+        Product::find($id)->delete();
+        $product = Product::with('category')
+            ->orderBy('id', 'DESC')
+            ->skip($request
+            ->input('current_page') * 5 - 1)
+            ->first() ??
+                    Product::where('user_id', auth()->id())
+                    ->with('category')
+                    ->orderBy('id', 'DESC')
+                    ->get();
+        return response()->json(['message' => 'Product successfully deleted!',
+            'product' => $product]);
+
+    }
 
 
     public function destroyCategory(Request $request): JsonResponse
