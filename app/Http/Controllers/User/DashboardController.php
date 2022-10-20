@@ -97,36 +97,41 @@ class DashboardController extends Controller
         ]);
     }
 
-
-    public function destroyProduct(Request $request)
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function destroyProduct(Request $request): JsonResponse
     {
         $id = $request->input('id');
         Product::find($id)->delete();
-        $product = Product::with('category')
-            ->orderBy('id', 'DESC')
-            ->skip($request
-            ->input('current_page') * 5 - 1)
-            ->first() ??
-                    Product::where('user_id', auth()->id())
-                    ->with('category')
-                    ->orderBy('id', 'DESC')
-                    ->get();
-        return response()->json(['message' => 'Product successfully deleted!',
+        $product = Product::orderBy('id', 'DESC')
+            ->with('category')
+            ->skip(
+                $request->input('current_page') * 5 - 1)
+            ->take(1)->first();
+        return response()->json([
+            'message' => 'Product successfully deleted!',
             'product' => $product]);
-
     }
 
-
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function destroyCategory(Request $request): JsonResponse
     {
         $id = $request->input('id');
         Category::find($id)->delete();
         Product::where('category_id', $id)->delete();
-        $category = Category::orderBy('id', 'desc')->skip($request->input('current_page') * 5 - 1)->first();
-        return response()->json(['message' => 'Category deleted!',
+        $category = Category::orderBy('id', 'desc')
+            ->skip(
+                $request->input('current_page') * 5 - 1)
+            ->take(1)->first();
+        return response()->json([
+            'message' => 'Category deleted!',
             'category' => $category]);
     }
-
 
     /**
      * @param AddCategoryRequest $request

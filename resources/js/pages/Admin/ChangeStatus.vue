@@ -40,7 +40,6 @@ export default {
     ],
 
     methods: {
-
         updateProductStatus(status) {
             axios.post('admin/change-status', {
                 id: this.changeProductId,
@@ -55,13 +54,8 @@ export default {
                     })
         }
     },
-    created() {
-        // console.log(this.changeStatusId);
-        // console.log(this.status)
-    }
 }
 </script>
 
 <style scoped>
-
 </style>

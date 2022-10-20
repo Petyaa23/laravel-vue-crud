@@ -61,7 +61,6 @@
         </div>
     </div>
 </template>
-
 <script>
 import {Form, Field} from 'vee-validate';
 import * as yup from "yup";
@@ -86,6 +85,7 @@ export default {
             },
         };
     },
+
     computed: {
         schema() {
             return yup.object().shape({
@@ -99,6 +99,7 @@ export default {
             });
         },
     },
+
     methods: {
         changeCategory(category) {
             axios.post('/update-category', this.selectedCategory)

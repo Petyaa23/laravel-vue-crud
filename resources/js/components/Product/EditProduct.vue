@@ -79,12 +79,13 @@
         </div>
     </div>
 </template>
-
 <script>
+
 import {Form, Field} from 'vee-validate';
 import * as yup from "yup";
 
 export default {
+
     name: "EditProduct.vue",
     components: {
         Form,
@@ -102,6 +103,7 @@ export default {
             categoryId: null,
         };
     },
+
     computed: {
         schema() {
             return yup.object().shape({
@@ -117,6 +119,7 @@ export default {
             });
         },
     },
+
     methods: {
         changeProduct() {
             this.selectedProduct.category_id = this.selectedProduct.category.id;

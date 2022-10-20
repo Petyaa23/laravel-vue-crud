@@ -22,8 +22,7 @@
                             </thead>
                             <tbody>
                             <tr v-for="product in productsList.data">
-                                <td class="border px-4 py-2" v-if="product.category">{{product.category.name}}</td>
-                                <td class="border px-4 py-2" v-else></td>
+                                <td class="border px-4 py-2">{{product.category.name}}</td>
                                 <td class="border px-4 py-2">{{ product.name }}</td>
                                 <td class="border px-4 py-2">{{ product.price }}</td>
                                 <td class="border px-4 py-2">{{ product.status }}</td>
@@ -78,8 +77,6 @@
             </div>
         </div>
     </div>
-
-
 </template>
 
 <script>
@@ -98,7 +95,6 @@ export default {
         return {
             openChangeStatusModal:false,
             productsList: [],
-            // showModal: false,
             changeProduct: {},
             changeStatus: '',
         }
@@ -109,7 +105,7 @@ export default {
             this.changeStatus = status;
             this.openChangeStatusModal = !this.openChangeStatusModal
         },
-        changeProductStatus () {
+        changeProductStatus() {
             this.changeProduct.status = this.changeStatus
             this.openChangeStatusModal = false
         }
@@ -117,7 +113,6 @@ export default {
 
     created() {
         this.productsList = this.products
-        console.log(this.product)
     }
 }
 

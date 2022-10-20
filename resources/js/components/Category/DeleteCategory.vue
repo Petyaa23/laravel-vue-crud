@@ -29,14 +29,14 @@
                     </button>
                     <button
                         class="mb-2 md:mb-0 bg-gray-100 border border-red-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-gray rounded-full hover:shadow-lg hover:bg-gray-600"
-                        type="button" @click="toggleModal(); deleteCategory()">
+                        type="button" @click="deleteCategory">
                         Delete
                     </button>
                 </div>
             </div>
         </div>
     </div>
-    <div v-if="showModal" class="opacity-25 fixed inset-0 z-40 bg-black"></div>
+
 </template>
 
 <script>
@@ -49,17 +49,7 @@ export default {
         'current_page'
     ],
 
-    data() {
-        return {
-            showModal: false,
-        }
-    },
-
     methods: {
-        toggleModal() {
-            this.showModal = !this.showModal;
-        },
-
         deleteCategory() {
             axios.post(`/delete-category`,
                 {id: this.id, current_page: this.current_page})

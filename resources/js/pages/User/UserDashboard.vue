@@ -29,8 +29,7 @@
                                 <tbody>
                                 <tr v-for="product in products.data">
                                     <td class="border px-4 py-2">{{ product.name }}</td>
-                                    <td class="border px-4 py-2" v-if="product.category_id">{{ product.category.name }}</td>
-                                    <td class="border px-4 py-2" v-else></td>
+                                    <td class="border px-4 py-2">{{ product.category.name }}</td>
                                     <td class="border px-4 py-2">{{ product.price }}</td>
                                     <td class="border px-4 py-2">{{ product.status }}</td>
                                     <td class="border px-4 py-2">{{ product.created_at }}</td>
@@ -223,7 +222,6 @@ export default {
 
     data() {
         return {
-            showModal: false,
             selectedProduct: {},
             selectedCategory: {},
             selectedProductId: null,
@@ -243,10 +241,6 @@ export default {
     },
 
     methods: {
-        toggleModal() {
-            this.showModal = !this.showModal;
-        },
-
         categoryAdd(item) {
             if (this.categories.current_page === 1 ) {
                 this.categories.data.unshift(item);
@@ -265,6 +259,7 @@ export default {
                 };
                 this.categories.links.splice(this.categories.links.length - 1, 0, categoriesLink);
             }
+            this.getCategoryList();
             this.openAddCategoryModal = false;
         },
 
@@ -295,7 +290,21 @@ export default {
                     this.categories.data.splice(index, 1);
                 }
             });
-            this.categories.data.push(category);
+            if (this.categories.data.length === 4) {
+                if (category)
+                    this.categories.data.push(category);
+            }
+            this.categories.total--;
+            const perPage = Math.ceil(this.categories.total / 5);
+            if (perPage < (this.categories.links.length - 2)) {
+                this.categories.links.splice(this.categories.links.length - 2, 1);
+            }
+            if (this.categories.current_page) {
+                if (this.categories.data.length === 0){
+                    const pages = this.categories.current_page - 1;
+                    this.getCategories('/get-categories?page=' + pages);
+                }
+            }
             this.openDeleteCategoryModal = false;
         },
 
@@ -310,7 +319,21 @@ export default {
                     this.products.data.splice(index, 1);
                 }
             });
-            this.products.data.push(products);
+            if (this.products.data.length === 4) {
+                if (products)
+                    this.products.data.push(products);
+            }
+            this.products.total--;
+            const perPage = Math.ceil(this.products.total / 5);
+            if (perPage < (this.products.links.length - 2)) {
+                this.products.links.splice(this.products.links.length - 2, 1);
+            }
+            if (this.products.current_page) {
+                if (this.products.data.length === 0){
+                    const pages = this.products.current_page - 1;
+                    this.getProducts('/get-products?page=' + pages);
+                }
+            }
             this.openDeleteProductModal = false;
         },
 

@@ -94,12 +94,10 @@ export default {
 
     props: [
         'categories',
-
     ],
 
     data() {
         return {
-            showModal: false,
             categoryId: '',
             product: {
                 name: '',
@@ -126,10 +124,6 @@ export default {
     },
 
     methods: {
-        toggleModal() {
-            this.showModal = !this.showModal;
-        },
-
         addProduct() {
             this.product.category_id = this.categoryId;
             axios.post('/add-products', this.product)
