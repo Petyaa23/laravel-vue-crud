@@ -124,7 +124,7 @@ class DashboardController extends Controller
         $id = $request->input('id');
         Category::find($id)->delete();
         Product::where('category_id', $id)->delete();
-        $category = Category::orderBy('id', 'desc')
+        $category = Category::orderBy('id', 'DESC')
             ->skip(
                 $request->input('current_page') * 5 - 1)
             ->take(1)->first();

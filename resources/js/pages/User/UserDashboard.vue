@@ -134,16 +134,16 @@
                                 <tbody>
                                 <tr v-for="category in categories.data">
                                     <td class="border px-4 py-2">{{ category.name }}</td>
-                                    <td class="border px-4 py-2">{{ category.description }}</td>
+                                    <td class="border px-4 py-2 break-words">{{ category.description }}</td>
                                     <td class="border px-4 py-2">active</td>
                                     <td class="border px-4 py-2">{{ category.created_at }}</td>
-                                    <td class="d-flex py-1 pl-8 md:border md:border-grey-500 text-left block md:table-cell">
+                                    <td class=" py-1 pl-8 md:border md:border-grey-500 text-left block md:table-cell ">
                                         <button type="button" @click="editCategory(category)"
                                                 class="px-3 py-2 bg-gray-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-black hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-700 active:shadow-lg transition duration-150 ease-in-out">
                                             Edit
                                         </button>
                                         <button type="button"
-                                                class="mx-2 px-3 bg-gray-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-black hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-700 active:shadow-lg transition duration-150 ease-in-out"
+                                                class="mx-2 py-2 px-3 bg-gray-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-black hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-700 active:shadow-lg transition duration-150 ease-in-out"
                                                 @click="deleteCategoryModal(category.id)">
                                             Delete
                                         </button>
