@@ -9,15 +9,12 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminMiddleware
 {
+    public function handle(Request $request, Closure $next)
+    {
+        if (Auth::user()->role === 1) {
+            return $next($request);
+        }
 
-
-public function handle(Request $request, Closure $next)
-{
-if (Auth::user()->role != User::DEFAULT_USER) {
-
-
-    return $next($request);
-}
-    abort(404);
-}
+        abort(404);
+    }
 }

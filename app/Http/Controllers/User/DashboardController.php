@@ -84,6 +84,17 @@ class DashboardController extends Controller
      */
     public function addCategory(AddCategoryRequest $request): JsonResponse
     {
+//        $category = Category::updateOrCreate(
+//            [
+//                'id' => $request->input('id'),
+//                'name' => $request->input('name'),
+//            ],
+//            [
+//                'description' => $request->input('description'),
+//                'user_id' => auth()->id(),
+//            ]
+//        );
+
         $category = Category::create(
             [
                 'name' => $request->input('name'),
@@ -159,7 +170,7 @@ class DashboardController extends Controller
     public function updateProduct(AddProductRequest $request): JsonResponse
     {
         $id = $request->input('id');
-        $product = Product::where('id', $id)->update(
+        Product::where('id', $id)->update(
             [
                 'name' => $request->input('name'),
                 'price' => $request->input('price'),

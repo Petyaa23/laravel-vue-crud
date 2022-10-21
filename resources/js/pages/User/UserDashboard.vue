@@ -29,7 +29,8 @@
                                 <tbody>
                                 <tr v-for="product in products.data">
                                     <td class="border px-4 py-2">{{ product.name }}</td>
-                                    <td class="border px-4 py-2">{{ product.category.name }}</td>
+                                    <td class="border px-4 py-2">{{ product.category?.name }}</td>
+                                    <td class="border px-4 py-2" v-else></td>
                                     <td class="border px-4 py-2">{{ product.price }}</td>
                                     <td class="border px-4 py-2">{{ product.status }}</td>
                                     <td class="border px-4 py-2">{{ product.created_at }}</td>
@@ -239,7 +240,6 @@ export default {
             categoryList: [],
         }
     },
-
     methods: {
         categoryAdd(item) {
             if (this.categories.current_page === 1 ) {
@@ -249,8 +249,10 @@ export default {
             if(this.categories.data.length > 5) {
                 this.categories.data.pop();
             }
+
             this.categories.total++;
             const perPage = Math.ceil(this.categories.total / 5);
+
             if (perPage > (this.categories.links.length - 2)) {
                 const categoriesLink = {
                     url: window.location.origin + '/get-categories?page=' + perPage,
@@ -387,6 +389,9 @@ export default {
                 this.categoryList = res.data.category_list;
             });
         }
+    },
+    beforeMount() {
+
     },
 
     created() {
